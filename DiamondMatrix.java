@@ -9,14 +9,21 @@ public class DiamondMatrix<T> {
 		int offset;
 		int ring = Math.abs(x) + Math.abs(y);
 		if (ring==0) return 0;
+
+		//System.out.println("ring: "+ ring);
 		
 		int base = 2 * ring * (ring - 1) + 1;
+		//System.out.println("base: "+ base);
+
 		if (x>=0) 
 			offset = ring - y;
 		else
 			offset = (3 * ring) + y;
 
-		return -(base + offset);
+		//System.out.println("offset: "+ offset);
+
+
+		return (base + offset);
 		
 	}
 
