@@ -43,9 +43,11 @@ public class Deck {
 
 	}
 
+	// don't like this
+	public ArrayList<Card> getArray() { return deck; }
+
 	public Card getCard(int index) { return deck.get(index); }
 	public void removeCard(int index) { deck.remove(index); }
-
 
 	public int startPosition() {
 		int pos = 0;
