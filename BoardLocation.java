@@ -1,4 +1,4 @@
-public class BoardLocation
+public class BoardLocation {
 	private int x;
 	private int y;
 
@@ -8,11 +8,14 @@ public class BoardLocation
 	}
 
 	public Boolean isOrigin () { return x==0 && y==0; }
-	public BoardLocation getWest { return new BoardLocation (x-1,y); }
-	public BoardLocation getEast { return new BoardLocation (x+1,y); }
-	public BoardLocation getNorth { return new BoardLocation (x,y-1); }
-	public BoardLocation getSouth { return new BoardLocation (x,y+1); }
+	public BoardLocation getWest() { return new BoardLocation (x-1,y); }
+	public BoardLocation getEast() { return new BoardLocation (x+1,y); }
+	public BoardLocation getNorth() { return new BoardLocation (x,y-1); }
+	public BoardLocation getSouth() { return new BoardLocation (x,y+1); }
 		
+	public String toString() {
+		return "" + x + ","+y;
+	}
 
         @Override
         public boolean equals (Object o)
@@ -24,7 +27,8 @@ public class BoardLocation
         }
 
 	@Override
-	public int hasCode()
+	public int hashCode()
 	{
 		return x << 16 ^ y;
 	}
+}
