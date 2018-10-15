@@ -12,10 +12,9 @@ public class BoardLocation {
 	public BoardLocation getEast() { return new BoardLocation (x+1,y); }
 	public BoardLocation getNorth() { return new BoardLocation (x,y-1); }
 	public BoardLocation getSouth() { return new BoardLocation (x,y+1); }
-		
-	public String toString() {
-		return "" + x + ","+y;
-	}
+	
+	@Override
+	public String toString() { return "" + x + ","+y; }
 
         @Override
         public boolean equals (Object o)
@@ -27,8 +26,5 @@ public class BoardLocation {
         }
 
 	@Override
-	public int hashCode()
-	{
-		return x << 16 ^ y;
-	}
+	public int hashCode() { return x << 16 ^ y; }
 }
