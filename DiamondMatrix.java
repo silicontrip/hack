@@ -31,10 +31,26 @@ public class DiamondMatrix<T> {
 
 	public void set(int x, int y, T t) {
 		int index = toIndex(x,y);
-		
+		while (index >= al.size())
+			al.add(null);
+			//al.ensureCapacity(index+1);
 		al.set(index,t);
 	}
 
 	public int size() { return al.size(); }
-	
+
+	public String toString() {
+		StringBuilder sb=new StringBuilder("[");  
+		Boolean first = true;
+		for (T c : al) {
+			if (!first) {
+				sb.append(",");
+			}
+			first = false;
+			sb.append(c);
+		}
+		sb.append("]");
+		return sb.toString();
+	}
+
 }
