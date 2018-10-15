@@ -21,5 +21,11 @@ public class test {
 		
 		System.out.println("board:" + b);
 
+		for (Card cd: d.getArray())
+		{
+			Boolean valid = b.isValid(0,-1,cd);
+			System.out.println ("" + valid + ": " + cd );
+		}
+
 	}
 }
