@@ -37,10 +37,14 @@ public class Board {
 	}
 
 	public void play(int x, int y, Card c) {
-
 			if (isValid(x,y,c)) {
 				board.set(x,y,c);
 			}
+	}
+
+	public Set<BoardLocation> getValidSpace()
+	{
+		for (BoardLocation b : board.)
 	}
 
 	public Card getNorthCard(int x, int y) { return board.get(x,y-1); }
