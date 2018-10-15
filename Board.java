@@ -21,11 +21,11 @@ public class Board {
 			return false;
 		
 		// if placing a card next to no other card
-		if ( getNorth(x,y) == null && getEast(x,y) == null && getSouth(x,y) == null && getWest(x,y) == null )
+		if ( getNorthCard(x,y) == null && getEastCard(x,y) == null && getSouthCard(x,y) == null && getWestCard(x,y) == null )
 			return false;
 
 		// if all 4 compass points match (matching against an empty square is valid)
-		if ( c.matchNorth(getNorth(x,y)) && c.matchEast(getEast(x,y)) && c.matchSouth(getSouth(x,y)) && c.matchWest(getWest(x,y)) ) 
+		if ( c.matchNorth(getNorthCard(x,y)) && c.matchEast(getEastCard(x,y)) && c.matchSouth(getSouthCard(x,y)) && c.matchWest(getWestCard(x,y)) ) 
 			return true;
 
 		return false;
@@ -39,10 +39,10 @@ public class Board {
 			}
 	}
 
-	public Card getNorth(int x, int y) { return bd.get(x,y-1); }
-	public Card getEast(int x, int y) { return bd.get(x+1,y); }
-	public Card getSouth(int x, int y) { return bd.get(x,y+1); }
-	public Card getWest(int x, int y) { return bd.get(x-1,y); }
+	public Card getNorthCard(int x, int y) { return bd.get(x,y-1); }
+	public Card getEastCard(int x, int y) { return bd.get(x+1,y); }
+	public Card getSouthCard(int x, int y) { return bd.get(x,y+1); }
+	public Card getWestCard(int x, int y) { return bd.get(x-1,y); }
 
 	public String toString() {
 		return bd.toString();
