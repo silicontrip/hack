@@ -6,10 +6,20 @@ public class test {
 
 		d.shuffle();
 
+		int startCardIndex = d.startPosition();
 
-		System.out.println("start: " + d.startPosition());
+		System.out.println("start: " + startCardIndex);
 		System.out.println(d);
 		
+		Card c = d.getCard(startCardIndex);
+		System.out.println ("Start: " + c);
+
+		b.play(0,0,c);
+
+		d.removeCard(startCardIndex);
+		System.out.println(d);
+		
+		System.out.println("board:" + b);
 
 	}
 }
