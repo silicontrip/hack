@@ -43,6 +43,10 @@ public class Deck {
 
 	}
 
+	public Card getCard(int index) { return deck.get(index); }
+	public void removeCard(int index) { deck.remove(index); }
+
+
 	public int startPosition() {
 		int pos = 0;
 		for (Card c : deck) {
