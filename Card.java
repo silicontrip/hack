@@ -29,10 +29,10 @@ public class Card {
 		HashMap<String,Card> sym  = new HashMap<String,Card>();
 
 		Card rc = this;
-		rc.resetRotation();
 		for (int rotate =0; rotate < 4 ; rotate++)
 		{
-			sym.put(rc.getNodeRotation(),rc);
+			if (sym.get(rc.getNodeRotation()) == null)
+				sym.put(rc.getNodeRotation(),rc);
 			rc = rc.newRotate();
 		}
 		return new ArrayList<Card> (sym.values());
