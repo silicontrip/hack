@@ -37,6 +37,7 @@ public class test {
 		{
 			
 			int chosenMove = rand.nextInt(mv.size());
+			System.out.println("Chosen Move: "+chosenMove);
 
 			b.play(mv.get(chosenMove).location, mv.get(chosenMove).card);
 			System.out.println("board:" + b);
