@@ -17,11 +17,11 @@ public class Colour {
 
 	public String toString() 
 	{
-		if (type==ColourType.red) return new String ("Red");
-		if (type==ColourType.blue) return new String ("Blue");
-		if (type==ColourType.cyan) return new String ("Cyan");
-		if (type==ColourType.yellow) return new String ("Yellow");
-		if (type==ColourType.purple) return new String ("Purple");
+		if (type==ColourType.red) return new String ("R");
+		if (type==ColourType.blue) return new String ("B");
+		if (type==ColourType.cyan) return new String ("C");
+		if (type==ColourType.yellow) return new String ("Y");
+		if (type==ColourType.purple) return new String ("P");
 		return ("[INVALID]");
 	}
 	@Override

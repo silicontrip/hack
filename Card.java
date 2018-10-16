@@ -44,6 +44,6 @@ public class Card {
 	
 	public Boolean isStart() { return start==true; }
 
-	public String toString() { return new String ("[" + north + "," + east + "," + south + "," + west + "]"); }
+	public String toString() { return new String (" " + col + ":[" + north + "," + east + "," + south + "," + west + "]"); }
 
 }
