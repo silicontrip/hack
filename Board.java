@@ -1,3 +1,4 @@
+import java.util.HashSet;
 
 public class Board {
 	//DiamondMatrix<Card> bd;
@@ -9,12 +10,10 @@ public class Board {
 		board = new HashBoard();
 	}
 
-	public Boolean isEmpty (int x, int y) {
-		return board.isEmpty(x,y);
-		//return board.get(new BoardLocation(x,y)) == null;
-	}
+	public Boolean isEmpty (int x, int y) { return board.isEmpty(x,y); } 
+	public Boolean isEmpty (BoardLocation b) { return board.isEmpty(b); } 
 
-// much game logic here
+	// much game logic here
 	public Boolean isValid(int x, int y, Card c) {
 		// If the board is empty and a start card is played
 		if (board.size() == 0 && x==0 && y==0)
@@ -42,9 +41,25 @@ public class Board {
 			}
 	}
 
-	public Set<BoardLocation> getValidSpace()
+	public HashSet<BoardLocation> getEmptyAdjacent(BoardLocation b) 
 	{
-		for (BoardLocation b : board.)
+		HashSet<BoardLocation> empty = new HashSet<BoardLocation>();
+		if (isEmpty(b.getNorth())) empty.add(b.getNorth());
+		if (isEmpty(b.getEast())) empty.add(b.getEast());
+		if (isEmpty(b.getSouth())) empty.add(b.getSouth());
+		if (isEmpty(b.getWest())) empty.add(b.getWest());
+		return empty;
+	}
+
+	public HashSet<BoardLocation> getValidSpace()
+	{
+		HashSet<BoardLocation> validSpaces = new HashSet<BoardLocation>();
+		for (BoardLocation b : board.getUsedLocations())
+		{
+			// add all empty adjacent spaces
+			validSpaces.addAll(getEmptyAdjacent(b));
+		}
+		return validSpaces;
 	}
 
 	public Card getNorthCard(int x, int y) { return board.get(x,y-1); }

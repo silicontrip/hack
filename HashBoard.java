@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Set;
 public class HashBoard {
 	private HashMap<BoardLocation,Card> al;
 
