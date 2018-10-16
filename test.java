@@ -10,8 +10,12 @@ public class test {
 			for (Card cd: d.getArray())
 			{
 				for (Card cdr: cd.getAllRotations())
+				{
+					//System.out.println("rotated: " + cdr);
 					if (b.isValid(bl,cdr))
 						moves.add(new CardLocation(cdr,bl));
+				}
+				//System.out.println("--");
 		
 			}
 		return moves;
@@ -36,9 +40,16 @@ public class test {
 		System.out.println ("Start card: " + c);
 
 		ArrayList<CardLocation> mv = validMoves(b,d);
-		System.out.println("valid Moves: " + mv.size());
 		while (d.size() > 0 && mv.size() > 0) 
 		{
+			System.out.println("Valid Moves:");
+			for (CardLocation cl: mv)
+			{
+				Board nb = b.playNew(cl.location, cl.card);
+				HashMap<Colour,Integer> scores = nb.getScore();
+				
+				System.out.println ("" + cl.location + ": " + cl.card+ " S:"+ scores.get(player) );
+			}
 			
 			int chosenMove = rand.nextInt(mv.size());
 			System.out.println("Chosen Move: "+chosenMove);
@@ -55,14 +66,6 @@ public class test {
 		
 
 			mv = validMoves(b,d);
-			System.out.println("Valid Moves:");
-			for (CardLocation cl: mv)
-			{
-				Board nb = b.playNew(cl.location, cl.card);
-				scores = nb.getScore();
-				
-				System.out.println ("" + cl.location + ": " + cl.card+ " S:"+ scores.get(player) );
-			}
 		}
 
 	}
