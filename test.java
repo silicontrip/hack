@@ -1,6 +1,19 @@
+import java.util.ArrayList;
 public class test {
-	public static void main(String[] args) {
 
+	public static ArrayList<CardLocation> validMoves (Board b, Deck d)
+	{
+		ArrayList<CardLocation> moves = new ArrayList<CardLocation>();
+		for (BoardLocation bl: b.getValidSpace())
+			for (Card cd: d.getArray())
+			{
+				if (b.isValid(bl,cd))
+					moves.add(new CardLocation(cd,bl));
+		
+			}
+		return moves;
+	}
+	public static void main(String[] args) {
 
 		Board b = new Board();
 
@@ -16,19 +29,16 @@ public class test {
 		Card c = d.getCard(startCardIndex);
 		System.out.println ("Start: " + c);
 
-		b.play(0,0,c);
+		b.play(new BoardLocation(0,0),c);
 
 		d.removeCard(startCardIndex);
 		System.out.println(d);
 		
 		System.out.println("board:" + b);
 
-		for (BoardLocation bl: b.getValidSpace())
-		for (Card cd: d.getArray())
-		{
-			Boolean valid = b.isValid(bl,cd);
-			System.out.println ("" + bl +" " + valid + ": " + cd );
-		}
+		ArrayList<CardLocation> mv = validMoves(b,d);
+		for (CardLocation cl: mv)
+			System.out.println ("" + cl.location + ": " + cl.card );
 
 	}
 }
