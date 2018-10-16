@@ -33,6 +33,8 @@ public class Board {
 		if ( c.matchNorth(getNorthCard(bl)) && c.matchEast(getEastCard(bl)) && c.matchSouth(getSouthCard(bl)) && c.matchWest(getWestCard(bl)) ) 
 			return true;
 
+		// need to check for rotation.
+
 		return false;
 		
 	}

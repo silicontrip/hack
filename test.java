@@ -9,8 +9,9 @@ public class test {
 		for (BoardLocation bl: b.getValidSpace())
 			for (Card cd: d.getArray())
 			{
-				if (b.isValid(bl,cd))
-					moves.add(new CardLocation(cd,bl));
+				for (Card cdr: cd.getAllRotations())
+					if (b.isValid(bl,cdr))
+						moves.add(new CardLocation(cdr,bl));
 		
 			}
 		return moves;
