@@ -23,19 +23,20 @@ public class test {
 
 		int startCardIndex = d.startPosition();
 
-		System.out.println("start: " + startCardIndex);
-		System.out.println(d);
+		System.out.println("start card position: " + startCardIndex);
+		System.out.println("starting deck: " + d);
 		
 		Card c = d.getCard(startCardIndex);
-		System.out.println ("Start: " + c);
+		System.out.println ("Start card: " + c);
 
 		b.play(new BoardLocation(0,0),c);
 
 		d.removeCard(startCardIndex);
-		System.out.println(d);
+		System.out.println("first move deck: " + d);
 		
-		System.out.println("board:" + b);
+		System.out.println("first move board:" + b);
 
+		System.out.println("Valid Moves:");
 		ArrayList<CardLocation> mv = validMoves(b,d);
 		for (CardLocation cl: mv)
 			System.out.println ("" + cl.location + ": " + cl.card );
