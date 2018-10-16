@@ -64,6 +64,8 @@ public class Board {
 	public HashSet<BoardLocation> getValidSpace()
 	{
 		HashSet<BoardLocation> validSpaces = new HashSet<BoardLocation>();
+		if (board.getUsedLocations().size() == 0)
+			validSpaces.add(new BoardLocation(0,0));
 		for (BoardLocation bl : board.getUsedLocations())
 		{
 			// add all empty adjacent spaces
@@ -76,10 +78,7 @@ public class Board {
 		HashMap<Colour,Integer> spaceScore = new HashMap<Colour,Integer>();
 		// iterate ENUM anyone?
 		for (Colour cl: Colour.allColours())
-		{
 			spaceScore.put(cl,new Integer(0));
-			//System.out.println ("" + cl + ": " + spaceScore.get(cl));
-		}
 		return spaceScore;
 	}
 	public HashMap<Colour,Integer> getScore() 
@@ -101,6 +100,23 @@ public class Board {
 				if (spaceScore.get(cl) > 1 ) 
 					totalScore.put(cl,new Integer(spaceScore.get(cl)-1+totalScore.get(cl)));
 			}
+		}
+		return totalScore;
+	}
+	public HashMap<Colour,Boolean> getWin() 
+	{
+		HashMap<Colour,Boolean> totalScore = new HashMap<Colour,Boolean>();
+		for (Colour cl: Colour.allColours())
+			totalScore.put(cl,false);
+		for (BoardLocation bl : board.getUsedLocations())
+		{
+			HashMap<Colour,Integer> spaceScore = initScore();
+			for (Card c : getAdjacentCards(bl))
+				spaceScore.put(c.getColour(),new Integer(spaceScore.get(c.getColour()) + 1));	
+
+			for (Colour cl: Colour.allColours())
+				if (spaceScore.get(cl) == 4 ) 
+					totalScore.put(cl,true);
 		}
 		return totalScore;
 	}

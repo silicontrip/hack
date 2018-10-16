@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 public class test {
 
 	public static ArrayList<CardLocation> validMoves (Board b, Deck d)
@@ -15,7 +16,7 @@ public class test {
 		return moves;
 	}
 	public static void main(String[] args) {
-
+		Random rand = new Random();
 		Board b = new Board();
 
 		Deck d = new Deck(new Colour(ColourType.red));
@@ -30,20 +31,29 @@ public class test {
 		Card c = d.getCard(startCardIndex);
 		System.out.println ("Start card: " + c);
 
-		b.play(new BoardLocation(0,0),c);
-		System.out.println("first move board:" + b);
-		HashMap<Colour,Integer> scores = b.getScore();
-		for (Colour cl: Colour.allColours())
-			System.out.println("" + cl + ": " + scores.get(cl));
+		ArrayList<CardLocation> mv = validMoves(b,d);
+		System.out.println("valid Moves: " + mv.size());
+		while (d.size() > 0 && mv.size() > 0) 
+		{
+			
+			int chosenMove = rand.nextInt(mv.size());
 
-		d.removeCard(startCardIndex);
-		System.out.println("first move deck: " + d);
+			b.play(mv.get(chosenMove).location, mv.get(chosenMove).card);
+			System.out.println("board:" + b);
+			HashMap<Colour,Integer> scores = b.getScore();
+			HashMap<Colour,Boolean> wins = b.getWin();
+			for (Colour cl: Colour.allColours())
+				System.out.println("" + cl + ": " + scores.get(cl) + "/" + wins.get(cl));
+
+			d.removeCard(mv.get(chosenMove).card);
+			System.out.println("deck: " + d);
 		
 
-		System.out.println("Valid Moves:");
-		ArrayList<CardLocation> mv = validMoves(b,d);
-		for (CardLocation cl: mv)
-			System.out.println ("" + cl.location + ": " + cl.card );
+			mv = validMoves(b,d);
+			System.out.println("Valid Moves:");
+			for (CardLocation cl: mv)
+				System.out.println ("" + cl.location + ": " + cl.card );
+		}
 
 	}
 }

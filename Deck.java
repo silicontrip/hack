@@ -45,6 +45,7 @@ public class Deck {
 
 	// don't like this
 	public ArrayList<Card> getArray() { return deck; }
+	public int size() { return deck.size(); }
 
 	public Card getCard(int index) { return deck.get(index); }
 	public void removeCard(int index) { deck.remove(index); }
