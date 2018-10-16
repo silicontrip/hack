@@ -8,6 +8,10 @@ public class Board {
 	Board() { 
 		board = new HashBoard();
 	}
+	
+	private Board (HashBoard hb) {
+		board = new HashBoard(hb);
+	}
 
 	public Boolean isEmpty (BoardLocation b) { return board.isEmpty(b); } 
 
@@ -38,6 +42,13 @@ public class Board {
 		if (isValid(bl,c)) {
 			board.set(bl,c);
 		}
+	}
+
+	public Board playNew (BoardLocation bl, Card c) {
+		Board nb = new Board(board);
+		if (nb.isValid(bl,c)) 
+			nb.board.set(bl,c);
+		return nb;
 	}
 
 	

@@ -19,13 +19,16 @@ public class test {
 		Random rand = new Random();
 		Board b = new Board();
 
-		Deck d = new Deck(new Colour(ColourType.red));
+		Colour player = Colour.allColours().get(0);
 
+		Deck d = new Deck(player);
+
+		System.out.println("starting deck: " + d);
 		d.shuffle();
 
 		int startCardIndex = d.startPosition();
 
-		System.out.println("starting deck: " + d);
+		System.out.println("shuffled deck: " + d);
 		System.out.println("start card position: " + startCardIndex);
 		
 		Card c = d.getCard(startCardIndex);
@@ -53,7 +56,12 @@ public class test {
 			mv = validMoves(b,d);
 			System.out.println("Valid Moves:");
 			for (CardLocation cl: mv)
-				System.out.println ("" + cl.location + ": " + cl.card );
+			{
+				Board nb = b.playNew(cl.location, cl.card);
+				scores = nb.getScore();
+				
+				System.out.println ("" + cl.location + ": " + cl.card+ " S:"+ scores.get(player) );
+			}
 		}
 
 	}

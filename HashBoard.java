@@ -4,6 +4,9 @@ public class HashBoard {
 	private HashMap<BoardLocation,Card> al;
 
 	HashBoard() { al = new HashMap<BoardLocation,Card>(); }
+	HashBoard(HashBoard hb) { al = new HashMap<BoardLocation,Card>(hb.getMap()); }
+
+	protected HashMap<BoardLocation,Card> getMap() {  return al; }
 
 	public Boolean isEmpty(int x, int y) { return get(x,y)==null; }
 	public Boolean isEmpty(BoardLocation index) { return get(index)==null; }
