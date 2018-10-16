@@ -23,6 +23,8 @@ public class Card {
 	Node getSouth() { return south; }
 	Node getWest() { return west; }
 
+	Colour getColour() {  return col; }
+
 	public Boolean matchNorth(Card c) { 
 		if (c == null) return true;
 		return getNorth().match(c.getSouth()); 

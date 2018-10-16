@@ -1,34 +1,31 @@
 import java.util.HashSet;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Board {
-	//DiamondMatrix<Card> bd;
 	HashBoard board;
-	//HashMap<BoardLocation,Card> board;
 
 	Board() { 
-		//bd = new DiamondMatrix<Card>(); 
 		board = new HashBoard();
 	}
 
-	//public Boolean isEmpty (int x, int y) { return board.isEmpty(x,y); } 
 	public Boolean isEmpty (BoardLocation b) { return board.isEmpty(b); } 
 
 	// much game logic here
-//	public Boolean isValid(int x, int y, Card c) { return isValid(new BoardLocation(x,y),c);  }
 	public Boolean isValid(BoardLocation bl, Card c) {
-		// If the board is empty and a start card is played
+		// If the board is empty and a start card is played VALID
 		if (board.size() == 0 && bl.isOrigin())
 			return c.isStart();
 
-		// if placing a card on another card
+		// if placing a card on another card INVALID
 		if (!isEmpty(bl))
 			return false;
 		
-		// if placing a card next to no other card
+		// if placing a card next to no other card INVALID
 		if ( isEmpty(bl.getNorth()) && isEmpty(bl.getEast()) && isEmpty(bl.getSouth()) && isEmpty(bl.getWest())) 
 			return false;
 
-		// if all 4 compass points match (matching against an empty square is valid)
+		// if all 4 compass points match (matching against an empty square is valid) VALID
 		if ( c.matchNorth(getNorthCard(bl)) && c.matchEast(getEastCard(bl)) && c.matchSouth(getSouthCard(bl)) && c.matchWest(getWestCard(bl)) ) 
 			return true;
 
@@ -38,9 +35,20 @@ public class Board {
 
 	//public void play(int x, int y, Card c) {
 	public void play(BoardLocation bl, Card c) {
-			if (isValid(bl,c)) {
-				board.set(bl,c);
-			}
+		if (isValid(bl,c)) {
+			board.set(bl,c);
+		}
+	}
+
+	
+	public ArrayList<Card> getAdjacentCards(BoardLocation bl) 
+	{
+		ArrayList<Card> cards = new ArrayList<Card>();
+		if (!isEmpty(bl.getNorth())) cards.add(getNorthCard(bl));
+		if (!isEmpty(bl.getEast())) cards.add(getEastCard(bl));
+		if (!isEmpty(bl.getSouth())) cards.add(getSouthCard(bl));
+		if (!isEmpty(bl.getWest())) cards.add(getWestCard(bl));
+		return cards;
 	}
 
 	public HashSet<BoardLocation> getEmptyAdjacent(BoardLocation bl) 
@@ -64,13 +72,31 @@ public class Board {
 		return validSpaces;
 	}
 
-	//public Card getNorthCard(int x, int y) { return board.get(x,y-1); }
+	private HashMap<Colour,Integer> initScore() {
+		HashMap<Colour,Integer> spaceScore = new HashMap<Colour,Integer>();
+		// iterate ENUM anyone?
+		for (Colour cl: Colour.allColours())
+			spaceScore.put(cl,0);
+		return spaceScore;
+	}
+	public HashMap<Colour,Integer> score() 
+	{
+		HashMap<Colour,Integer> totalScore = initScore();
+		for (BoardLocation bl : board.getUsedLocations())
+		{
+			HashMap<Colour,Integer> spaceScore = initScore();
+			for (Card c : getAdjacentCards(bl))
+				spaceScore.put(c.getColour(),spaceScore.get(c.getColour()) + 1);	
+
+			for (Colour cl: Colour.allColours())
+				if (spaceScore.get(cl) > 1 ) totalScore.put(cl,spaceScore.get(cl)-1+totalScore.get(cl));
+		}
+		return totalScore;
+	}
+
 	public Card getNorthCard(BoardLocation bl) { return board.get(bl.getNorth()); }
-	//public Card getEastCard(int x, int y) { return board.get(x+1,y); }
 	public Card getEastCard(BoardLocation bl) { return board.get(bl.getEast()); }
-	//public Card getSouthCard(int x, int y) { return board.get(x,y+1); }
 	public Card getSouthCard(BoardLocation bl) { return board.get(bl.getSouth()); }
-	//public Card getWestCard(int x, int y) { return board.get(x-1,y); }
 	public Card getWestCard(BoardLocation bl) { return board.get(bl.getWest()); }
 
 	public String toString() {

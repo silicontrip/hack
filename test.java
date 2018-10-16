@@ -17,7 +17,7 @@ public class test {
 
 		Board b = new Board();
 
-		Deck d  = new Deck(Colour.red);
+		Deck d = new Deck(new Colour(ColourType.red));
 
 		d.shuffle();
 

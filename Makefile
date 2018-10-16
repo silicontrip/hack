@@ -1,6 +1,6 @@
 
 CP=.
-CLASSES= Board.class Card.class Colour.class Deck.class HashBoard.class BoardLocation.class Node.class NodeType.class \
+CLASSES= Board.class Card.class Colour.class ColourType.class Deck.class HashBoard.class BoardLocation.class Node.class NodeType.class \
 test.class
 
 ANONCLASSES=
