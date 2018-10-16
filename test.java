@@ -23,10 +23,11 @@ public class test {
 		
 		System.out.println("board:" + b);
 
+		for (BoardLocation bl: b.getValidSpace())
 		for (Card cd: d.getArray())
 		{
-			Boolean valid = b.isValid(0,-1,cd);
-			System.out.println ("" + valid + ": " + cd );
+			Boolean valid = b.isValid(bl,cd);
+			System.out.println ("" + bl +" " + valid + ": " + cd );
 		}
 
 	}

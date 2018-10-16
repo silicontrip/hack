@@ -14,21 +14,22 @@ public class Board {
 	public Boolean isEmpty (BoardLocation b) { return board.isEmpty(b); } 
 
 	// much game logic here
-	public Boolean isValid(int x, int y, Card c) {
+	public Boolean isValid(int x, int y, Card c) { return isValid(new BoardLocation(x,y),c);  }
+	public Boolean isValid(BoardLocation bl, Card c) {
 		// If the board is empty and a start card is played
-		if (board.size() == 0 && x==0 && y==0)
+		if (board.size() == 0 && bl.isOrigin())
 			return c.isStart();
 
 		// if placing a card on another card
-		if (!isEmpty(x,y))
+		if (!isEmpty(bl))
 			return false;
 		
 		// if placing a card next to no other card
-		if ( getNorthCard(x,y) == null && getEastCard(x,y) == null && getSouthCard(x,y) == null && getWestCard(x,y) == null )
+		if ( getNorthCard(bl) == null && getEastCard(bl) == null && getSouthCard(bl) == null && getWestCard(bl) == null )
 			return false;
 
 		// if all 4 compass points match (matching against an empty square is valid)
-		if ( c.matchNorth(getNorthCard(x,y)) && c.matchEast(getEastCard(x,y)) && c.matchSouth(getSouthCard(x,y)) && c.matchWest(getWestCard(x,y)) ) 
+		if ( c.matchNorth(getNorthCard(bl)) && c.matchEast(getEastCard(bl)) && c.matchSouth(getSouthCard(bl)) && c.matchWest(getWestCard(bl)) ) 
 			return true;
 
 		return false;
@@ -63,9 +64,13 @@ public class Board {
 	}
 
 	public Card getNorthCard(int x, int y) { return board.get(x,y-1); }
+	public Card getNorthCard(BoardLocation bl) { return board.get(bl.getNorth()); }
 	public Card getEastCard(int x, int y) { return board.get(x+1,y); }
+	public Card getEastCard(BoardLocation bl) { return board.get(bl.getEast()); }
 	public Card getSouthCard(int x, int y) { return board.get(x,y+1); }
+	public Card getSouthCard(BoardLocation bl) { return board.get(bl.getSouth()); }
 	public Card getWestCard(int x, int y) { return board.get(x-1,y); }
+	public Card getWestCard(BoardLocation bl) { return board.get(bl.getWest()); }
 
 	public String toString() {
 		return board.toString();
