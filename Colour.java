@@ -7,8 +7,8 @@ public class Colour {
 	public static ArrayList<Colour> allColours() 
 	{
 		ArrayList<Colour> cl = new ArrayList<Colour>();
-		cl.add(new Colour(ColourType.red));
 		cl.add(new Colour(ColourType.blue));
+		cl.add(new Colour(ColourType.red));
 		cl.add(new Colour(ColourType.cyan));
 		cl.add(new Colour(ColourType.yellow));
 		cl.add(new Colour(ColourType.purple));
@@ -24,7 +24,14 @@ public class Colour {
 		if (type==ColourType.purple) return new String ("Purple");
 		return ("[INVALID]");
 	}
+	@Override
+	public int hashCode() { return type.hashCode(); }
+	@Override 
+        public boolean equals (Object o)
+        {
+                if (o == this) return true;
+                if (!(o instanceof Colour)) return false;
+                Colour l = (Colour) o;
+		return l.type == type;
+        }
 }
-
-	
-

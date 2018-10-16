@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 public class test {
 
 	public static ArrayList<CardLocation> validMoves (Board b, Deck d)
@@ -23,18 +24,21 @@ public class test {
 
 		int startCardIndex = d.startPosition();
 
-		System.out.println("start card position: " + startCardIndex);
 		System.out.println("starting deck: " + d);
+		System.out.println("start card position: " + startCardIndex);
 		
 		Card c = d.getCard(startCardIndex);
 		System.out.println ("Start card: " + c);
 
 		b.play(new BoardLocation(0,0),c);
+		System.out.println("first move board:" + b);
+		HashMap<Colour,Integer> scores = b.getScore();
+		for (Colour cl: Colour.allColours())
+			System.out.println("" + cl + ": " + scores.get(cl));
 
 		d.removeCard(startCardIndex);
 		System.out.println("first move deck: " + d);
 		
-		System.out.println("first move board:" + b);
 
 		System.out.println("Valid Moves:");
 		ArrayList<CardLocation> mv = validMoves(b,d);

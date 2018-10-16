@@ -76,20 +76,31 @@ public class Board {
 		HashMap<Colour,Integer> spaceScore = new HashMap<Colour,Integer>();
 		// iterate ENUM anyone?
 		for (Colour cl: Colour.allColours())
-			spaceScore.put(cl,0);
+		{
+			spaceScore.put(cl,new Integer(0));
+			//System.out.println ("" + cl + ": " + spaceScore.get(cl));
+		}
 		return spaceScore;
 	}
-	public HashMap<Colour,Integer> score() 
+	public HashMap<Colour,Integer> getScore() 
 	{
 		HashMap<Colour,Integer> totalScore = initScore();
 		for (BoardLocation bl : board.getUsedLocations())
 		{
 			HashMap<Colour,Integer> spaceScore = initScore();
 			for (Card c : getAdjacentCards(bl))
-				spaceScore.put(c.getColour(),spaceScore.get(c.getColour()) + 1);	
+			{
+			//	Colour cl = c.getColour();
+			//	System.out.println ("" + cl + ": " + spaceScore.get(cl));
+				spaceScore.put(c.getColour(),new Integer(spaceScore.get(c.getColour()) + 1));	
+			}
 
 			for (Colour cl: Colour.allColours())
-				if (spaceScore.get(cl) > 1 ) totalScore.put(cl,spaceScore.get(cl)-1+totalScore.get(cl));
+			{
+			//	System.out.println ("" + cl + ": " + spaceScore.get(cl));
+				if (spaceScore.get(cl) > 1 ) 
+					totalScore.put(cl,new Integer(spaceScore.get(cl)-1+totalScore.get(cl)));
+			}
 		}
 		return totalScore;
 	}
