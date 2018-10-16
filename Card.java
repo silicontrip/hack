@@ -29,9 +29,10 @@ public class Card {
 		HashMap<String,Card> sym  = new HashMap<String,Card>();
 
 		Card rc = this;
+		rc.resetRotation();
 		for (int rotate =0; rotate < 4 ; rotate++)
 		{
-			sym.put(getNodeRotation(),rc);
+			sym.put(rc.getNodeRotation(),rc);
 			rc = rc.newRotate();
 		}
 		return new ArrayList<Card> (sym.values());
@@ -50,7 +51,7 @@ public class Card {
 	Node getSouth() { return news[(rotate+2)%4]; }
 	Node getWest() { return news[(rotate+3)%4]; }
 
-	Colour getColour() {  return col; }
+	Colour getColour() { return col; }
 
 	public Boolean matchNorth(Card c) { 
 		if (c == null) return true;
@@ -71,7 +72,7 @@ public class Card {
 	
 	public Boolean isStart() { return start==true; }
 
-	public String toString() { return new String (" " + col + ":[" + getNorth() + "," + getEast() + "," + getSouth() + "," + getWest() + "]"); }
+	public String toString() { return new String (" " + col + ":{" + getRotate() + ":[" + getNorth() + "," + getEast() + "," + getSouth() + "," + getWest() + "]}"); }
 
 	// reduce for symmetry
 	private Card newRotate() { 
@@ -79,8 +80,9 @@ public class Card {
 		nc.rotateCW();
 		return nc;
 	}
-	public void rotateCW() {  rotate = (rotate + 1 ) % 4; }
-	public void rotateCCW() {  rotate = (rotate - 1 ) % 4; }
+	private void resetRotation() { rotate = 0; }
+	public void rotateCW() {  rotate = (rotate + 1) % 4; }
+	public void rotateCCW() {  rotate = (rotate + 3) % 4; }
 	public void rotate180() {  rotate = (rotate + 2) % 4; }
 
 	@Override 
