@@ -13,7 +13,7 @@ public class Deck {
 		Node nil = new Node(NodeType.nil); // I really wanted to call this null
 
 		// deck factory
-
+		// hard coded list of standard cards.  Move to xml...
 		deck = new ArrayList<Card>();
 		deck.add(new Card(zero,zero,zero,zero,col,false));
 		deck.add(new Card(zero,zero,one,zero,col,false));
@@ -48,6 +48,7 @@ public class Deck {
 
 	public Card getCard(int index) { return deck.get(index); }
 	public void removeCard(int index) { deck.remove(index); }
+	public void removeCard(Card c) { deck.remove(c); }
 
 	public int startPosition() {
 		int pos = 0;
