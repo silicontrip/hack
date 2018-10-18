@@ -88,47 +88,47 @@ public class Board {
 		return validSpaces;
 	}
 
-	private HashMap<Colour,Integer> initScore() {
+	private HashMap<Colour,Integer> initScore(ArrayList<Colour> ac) {
 		HashMap<Colour,Integer> spaceScore = new HashMap<Colour,Integer>();
-		// iterate ENUM anyone?
-		for (Colour cl: Colour.allColours())
+		for (Colour cl: ac)
 			spaceScore.put(cl,new Integer(0));
 		return spaceScore;
 	}
-	public HashMap<Colour,Integer> getScore() 
+	public HashMap<Colour,Integer> getScore(ArrayList<Colour> ac) 
 	{
-		HashMap<Colour,Integer> totalScore = initScore();
+		HashMap<Colour,Integer> totalScore = initScore(ac);
 		for (BoardLocation bl : board.getUsedLocations())
 		{
 			HashMap<Colour,Integer> spaceScore = initScore();
 			for (Card c : getAdjacentCards(bl))
-			{
-			//	Colour cl = c.getColour();
-			//	System.out.println ("" + cl + ": " + spaceScore.get(cl));
 				spaceScore.put(c.getColour(),new Integer(spaceScore.get(c.getColour()) + 1));	
-			}
 
-			for (Colour cl: Colour.allColours())
-			{
-			//	System.out.println ("" + cl + ": " + spaceScore.get(cl));
+			for (Colour cl: ac)
 				if (spaceScore.get(cl) > 1 ) 
 					totalScore.put(cl,new Integer(spaceScore.get(cl)-1+totalScore.get(cl)));
-			}
 		}
 		return totalScore;
 	}
-	public HashMap<Colour,Boolean> getWin() 
+	public Colour getWinColour()
+	{
+		HashMap<Colour,Boolean> winMap = getWin(Colour.allColours());
+		for (Colour cl: winMap.keySet())
+			if (winMap.get(cl))
+				return cl;
+		return null;
+	}	
+	public HashMap<Colour,Boolean> getWin(ArrayList<Colour> ac) 
 	{
 		HashMap<Colour,Boolean> totalScore = new HashMap<Colour,Boolean>();
 		for (Colour cl: Colour.allColours())
 			totalScore.put(cl,false);
 		for (BoardLocation bl : board.getUsedLocations())
 		{
-			HashMap<Colour,Integer> spaceScore = initScore();
+			HashMap<Colour,Integer> spaceScore = initScore(ac);
 			for (Card c : getAdjacentCards(bl))
 				spaceScore.put(c.getColour(),new Integer(spaceScore.get(c.getColour()) + 1));	
 
-			for (Colour cl: Colour.allColours())
+			for (Colour cl: ac)
 				if (spaceScore.get(cl) == 4 ) 
 					totalScore.put(cl,true);
 		}
