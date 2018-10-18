@@ -1,7 +1,8 @@
+import java.util.HashMap;
 interface UserInterface {
-public abstract updateDeck(Deck d);
-public abstract updateBoard(Board b);
-public abstract requestMove(Callback c);
-public abstract updateScores(HashMap<Colour,Integer> s);
-public abstract showWinner (Colour w);
+public abstract void updateDeck(Deck d);
+public abstract void updateBoard(Board b);
+public abstract CardLocation requestMove();
+public abstract void updateScores(HashMap<Colour,Integer> s);
+public abstract void showWinner (Colour w);
 }

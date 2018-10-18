@@ -1,3 +1,5 @@
+import java.util.HashMap;
+import java.util.ArrayList;
 public class Hack implements Runnable {
 	private String[] arguments;
 	HashMap<Colour,UserInterface> playersInterface;
@@ -62,7 +64,7 @@ public class Hack implements Runnable {
 		{
 			// determine colour
 			UserInterface ui = playersInterface.get(thisColour);
-			thisDeck = new Deck(thisColour);
+			Deck thisDeck = new Deck(thisColour);
 			thisDeck.shuffle();
 			playersDeck.put(thisColour,thisDeck);
 			ui.showBoard(b);
@@ -103,7 +105,7 @@ public class Hack implements Runnable {
 				currentDeck.removeCard(cl.card);
 				currentPlayer.showDeck(currentDeck);
 				
-				winner = b.getWinColour()
+				winner = b.getWinColour();
 				HashMap<Colour,Integer> score = b.getScore(colourOrder);
 				for (Colour updateColour: colourOrder)
 				{
@@ -114,7 +116,7 @@ public class Hack implements Runnable {
 					if (winner != null)
 						updateInterface.showWinner(winner);
 				}
-				if (winner)
+				if (winner != null)
 					break;
 			}
 		

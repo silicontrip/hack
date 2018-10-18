@@ -99,7 +99,7 @@ public class Board {
 		HashMap<Colour,Integer> totalScore = initScore(ac);
 		for (BoardLocation bl : board.getUsedLocations())
 		{
-			HashMap<Colour,Integer> spaceScore = initScore();
+			HashMap<Colour,Integer> spaceScore = initScore(ac);
 			for (Card c : getAdjacentCards(bl))
 				spaceScore.put(c.getColour(),new Integer(spaceScore.get(c.getColour()) + 1));	
 
