@@ -1,6 +1,7 @@
 
 CP=.
 CLASSES= Board.class Card.class Colour.class ColourType.class Deck.class HashBoard.class BoardLocation.class Node.class NodeType.class \
+ArgumentsGui.class \
 Hack.class test.class
 
 ANONCLASSES=
