@@ -1,5 +1,7 @@
 public class Hack implements Runnable {
 	private String[] arguments;
+	HashMap<Colour,UserInterface> playersInterface;
+	HashMap<Colour,Deck> playersDeck;
 
         public Hack(String[] a) { 
 		arguments = a;
@@ -14,12 +16,94 @@ public class Hack implements Runnable {
         public void run() {
 		// depending on how this is invoked 
 		if (arguments.length==0)
-			
+		{
 			// 1) setup invoke Gui 
-			
-		// then create UIs from arguments
-		
+			ArgumentsGui g = new ArgumentsGui(this);
+			g.show();
+		} else {
+			// then create UIs from arguments
+			start(InterfaceFactory.getPlayers(arguments));
+		}
         }
+
+	private static <T> ArrayList<T> rotate(ArrayList<T> aL, int shift)
+	{
+		if (aL.size() == 0)
+			return aL;
+
+		T element = null;
+		for(int i = 0; i < shift; i++)
+		{
+			// remove last element, add it to front of the ArrayList
+			element = aL.remove( aL.size() - 1 );
+			aL.add(0, element);
+		}
+
+		return aL;
+	}
+
+	public void start(HashMap<Colour,UserInterface> p)
+	{
+		playersInterface = p;
+
+		Board b = new Board();
+		playersDeck = new HashMap<Colour,Deck>();
+		ArrayList<Colour> colourOrder;
+
+		for (Colour thisColour: playersInterface.keySet())
+		{
+			// determine colour
+			UserInterface ui = playersInterface.get(thisColour);
+			thisDeck = new Deck(thisColour);
+			thisDeck.shuffle();
+			playersDeck.put(thisColour,thisDeck);
+			ui.showBoard(b);
+			ui.showDeck(thisDeck);
+		}
+		
+		// determine start player
+		int startPlayer=0;
+
+		int startLocation = playersDeck.get(0).startPosition();
+
+		for (int i=0; i<playersDeck.size(); i++)
+		{
+			Deck td = playersDeck.get(i);
+			int thisStart  = td.startPosition();
+			if (thisStart < startLocation)
+			{
+				startLocation = thisStart;
+				startPlayer=i;
+			}
+		}
+
+		// roll array until start player
+		colourOrder = rotate(new ArrayList<Colour>(playersInterface.keySet(),startPlayer));
+		
+		while (true) // not win, not out of cards
+		{
+			for (Colour thisColour: colourOrder)
+			{
+				UserInterface currentPlayer = playersInterface.get(thisColour);
+				Deck currentDeck = playersDeck.get(thisColour);
+				currentPlayer.showBoard(b);
+				currentPlayer.showDeck(currentDeck);
+				CardLocation cl = currentPlayer.requestMove(this);
+				// wait for response...
+				b.play(cl);
+				currentDeck.removeCard(cl.card);
+				currentPlayer.showDeck(currentDeck);	
+				for (Colour updateColour: colourOrder)
+				{
+					UserInterface updateInterface  = playersInterface.get(updateColour);
+					updateInterface.showBoard(b);
+					updateInterface.showScore(b.getScore());
+					// show winner
+				}
+			}
+		
+		}
+	}
 }
 
 

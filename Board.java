@@ -40,6 +40,7 @@ public class Board {
 	}
 
 	//public void play(int x, int y, Card c) {
+	public void play(CardLocation cl) { play(cl.location, cl.card);}
 	public void play(BoardLocation bl, Card c) {
 		if (isValid(bl,c)) {
 			board.set(bl,c);
