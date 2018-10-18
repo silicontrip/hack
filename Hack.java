@@ -42,6 +42,14 @@ public class Hack implements Runnable {
 		return aL;
 	}
 
+	public int countDeck () {
+
+		int total= 0;
+		for (Deck dk: playersDeck.values())
+			total += dk.size();
+		return total;
+	}
+
 	public void start(HashMap<Colour,UserInterface> p)
 	{
 		playersInterface = p;
@@ -78,9 +86,10 @@ public class Hack implements Runnable {
 		}
 
 		// roll array until start player
-		colourOrder = rotate(new ArrayList<Colour>(playersInterface.keySet(),startPlayer));
+		colourOrder = rotate(new ArrayList<Colour>(playersInterface.keySet()),startPlayer);
 		
-		while (true) // not win, not out of cards
+		Colour winner = null;
+		while (countDeck()>0 && winner == null) // not win, not out of cards
 		{
 			for (Colour thisColour: colourOrder)
 			{
@@ -92,48 +101,28 @@ public class Hack implements Runnable {
 				// wait for response...
 				b.play(cl);
 				currentDeck.removeCard(cl.card);
-				currentPlayer.showDeck(currentDeck);	
+				currentPlayer.showDeck(currentDeck);
+				
+				winner = b.getWinColour()
+				HashMap<Colour,Integer> score = b.getScore(colourOrder);
 				for (Colour updateColour: colourOrder)
 				{
 					UserInterface updateInterface  = playersInterface.get(updateColour);
 					updateInterface.showBoard(b);
-					updateInterface.showScore(b.getScore());
+					updateInterface.showScore(score);
 					// show winner
+					if (winner != null)
+						updateInterface.showWinner(winner);
 				}
+				if (winner)
+					break;
 			}
 		
 		}
+		// do something at the end
 	}
 }
 
 
-// determine how many players
-// determine player object types
-
-// player ArrayList
-// show deck
-// show board
-
-// determine first player
-// rotate array to first player
-
-// scores
-// winner
-// deck size
-
-// while (alldecks>0 && !winner)
-//{
-//for (Player : PlayerArray)
-// {
-// Player.requestMove()
-// isValid
-// board.play(card)
-// other Players: update board
-// winner ? allPlaeyrs show winner
-// Player.deck.removeCard(card)
-// calculate Scores
-// show Scores
-// }
-//}
 
 
