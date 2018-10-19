@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 public class Hack implements Runnable {
 	private String[] arguments;
 	HashMap<Colour,UserInterface> playersInterface;
@@ -23,8 +24,18 @@ public class Hack implements Runnable {
 			ArgumentsGui g = new ArgumentsGui(this);
 			g.show();
 		} else {
+
 			// then create UIs from arguments
-			start(UIFactory.getPlayers(arguments));
+			try {
+				start(UIFactory.getPlayers(arguments));
+		
+			} catch (NoSuchElementException e) {
+					System.out.println("Too Many Arguments");
+			} catch (RuntimeException e) {
+					System.out.println("Error: " + e.getMessage());
+			} catch (Exception e) {
+					e.printStackTrace();
+			}
 		}
     }
 
@@ -56,29 +67,35 @@ public class Hack implements Runnable {
 	{
 		playersInterface = p;
 
+		System.out.println("Players: " + p.size());
+
 		Board b = new Board();
 		playersDeck = new HashMap<Colour,Deck>();
-		ArrayList<Colour> colourOrder;
+		ArrayList<Colour> colourOrder = new ArrayList<Colour>();
 
 		for (Colour thisColour: playersInterface.keySet())
 		{
+			colourOrder.add(thisColour);
 			// determine colour
 			UserInterface ui = playersInterface.get(thisColour);
 			Deck thisDeck = new Deck(thisColour);
 			thisDeck.shuffle();
 			playersDeck.put(thisColour,thisDeck);
+
+			System.out.println("" + thisColour + "/" + ui.getClass().getName());
+
 			ui.updateBoard(b);
 			ui.updateDeck(thisDeck);
 		}
 		
 		// determine start player
 		int startPlayer=0;
+		int startLocation = 999;  // couldn't do it smarter
 
-		int startLocation = playersDeck.get(0).startPosition();
-
-		for (int i=0; i<playersDeck.size(); i++)
+		for (int i=0; i<colourOrder.size(); i++)
+		//for (Deck td: playerDeck.keySet())
 		{
-			Deck td = playersDeck.get(i);
+			Deck td = playersDeck.get(colourOrder.get(i));
 			int thisStart  = td.startPosition();
 			if (thisStart < startLocation)
 			{

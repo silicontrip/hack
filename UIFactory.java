@@ -8,7 +8,10 @@ public class UIFactory {
 	private static HashMap<String,Class> getAllInterfaces() 
 	{
 		HashMap<String,Class> allInterfaceNames = new HashMap<String,Class>();
-		allInterfaceNames.put(UIRandom.name(),UIRandom.class);
+
+		// System.out.println("" + UIRandom.name() +"/"+ UIRandom.class.getName());
+
+		allInterfaceNames.put(UIRandom.class.getName(),UIRandom.class);
 		return allInterfaceNames;
 	}
 
@@ -16,8 +19,13 @@ public class UIFactory {
 	{
 		Class c = getAllInterfaces().get(iname);
 		if (c==null)
-			throw new RuntimeException("Interface Not Found");
-        return (UserInterface)c.newInstance();
+			throw new RuntimeException("Invalid Interface name: " + iname);
+
+		UserInterface ui = (UserInterface) c.newInstance();
+
+		//System.out.println("Class:" + c + "/" + ui.name());
+
+        return ui;
 	}
 
 	public static HashMap<Colour,UserInterface> getPlayers(String[] a) throws RuntimeException, InstantiationException, IllegalAccessException
@@ -28,8 +36,12 @@ public class UIFactory {
 		for (String iname: a)
 		{
 			Colour c = ac.next(); // happy to throw an exception if too many arguments specified.
+			
+			UserInterface ui = getInterface(iname);
+			// System.out.println("" + ui.getClass().getName());
 			players.put(c,getInterface(iname));
 		}
+		//System.out.println("size: " + players.size());
 		return players;
 	}
 
