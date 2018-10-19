@@ -98,4 +98,9 @@ public class Card {
 	public int hashCode() {
 		return getNode(0).hashCode() ^ 4 * getNode(1).hashCode() ^ 16 * getNode(2).hashCode() ^ 64 * getNode(3).hashCode() ^ 320 * getColour().hashCode();
 	}
+
+	// like hashcode but takes rotation into account, for graphic image.
+	public int imageKey() {
+		return getNorth().hashCode() ^ 4 * getEast().hashCode() ^ 16 * getSouth().hashCode() ^ 64 * getWest().hashCode() ^ 320 * getColour().hashCode();
+	}
 }
