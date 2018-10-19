@@ -33,6 +33,7 @@ public class Hack implements Runnable {
 					System.out.println("Too Many Arguments");
 			} catch (RuntimeException e) {
 					System.out.println("Error: " + e.getMessage());
+					e.printStackTrace();
 			} catch (Exception e) {
 					e.printStackTrace();
 			}
