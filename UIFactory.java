@@ -1,5 +1,4 @@
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.lang.RuntimeException;
 public class UIFactory {
 
@@ -9,10 +8,15 @@ public class UIFactory {
 	{
 		HashMap<String,Class> allInterfaceNames = new HashMap<String,Class>();
 
-		// System.out.println("" + UIRandom.name() +"/"+ UIRandom.class.getName());
-
+		allInterfaceNames.put("none",null);
 		allInterfaceNames.put(UIRandom.class.getName(),UIRandom.class);
 		return allInterfaceNames;
+	}
+
+	public static String[] getAllInterfaceNames()
+	{
+		Set<String> keys = getAllInterfaces().keySet();
+		return (String[]) keys.toArray(new String[keys.size()]);
 	}
 
 	public static UserInterface getInterface(String iname) throws RuntimeException, InstantiationException, IllegalAccessException
@@ -22,9 +26,6 @@ public class UIFactory {
 			throw new RuntimeException("Invalid Interface name: " + iname);
 
 		UserInterface ui = (UserInterface) c.newInstance();
-
-		//System.out.println("Class:" + c + "/" + ui.name());
-
         return ui;
 	}
 
@@ -38,7 +39,6 @@ public class UIFactory {
 			Colour c = ac.next(); // happy to throw an exception if too many arguments specified.
 			
 			UserInterface ui = getInterface(iname);
-			// System.out.println("" + ui.getClass().getName());
 			players.put(c,getInterface(iname));
 		}
 		//System.out.println("size: " + players.size());
