@@ -2,3 +2,6 @@
 *.jar
 *.swp
 *.pdf
+*.png
+*.ai
+.DS_Store
