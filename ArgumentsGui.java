@@ -55,6 +55,7 @@ public class ArgumentsGui implements ActionListener {
 				//System.out.println("" + cl + ": " +uiname);
 			}
 			caller.start(p);
+			frame.dispose();
 		} catch (Exception e) {
 
             JOptionPane.showMessageDialog(this.frame,
