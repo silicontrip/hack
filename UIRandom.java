@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.HashMap;
 
-public class UIRandom implements UserInterface {
+public class UIRandom extends UserInterface {
 
 	private Deck deck;
 	private Board board;
@@ -12,7 +12,7 @@ public class UIRandom implements UserInterface {
 		rand = new Random();
 	}
 
-	public static String name() { return "random"; }
+	//public static String name() { return "random"; }
 
 	public void updateDeck (Deck d) { deck = d; }
 	public void updateBoard (Board b) { board = b; }
