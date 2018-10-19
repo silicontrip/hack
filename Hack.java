@@ -104,6 +104,8 @@ public class Hack implements Runnable {
 			}
 		}
 
+	System.out.println("Start Player: " + colourOrder.get(startPlayer));
+
 		// roll array until start player
 		colourOrder = rotate(new ArrayList<Colour>(playersInterface.keySet()),startPlayer);
 		
@@ -129,16 +131,20 @@ public class Hack implements Runnable {
 					UserInterface updateInterface  = playersInterface.get(updateColour);
 					updateInterface.updateBoard(b);
 					updateInterface.updateScores(score);
+					System.out.println("Score: " + score);
 					// show winner
-					if (winner != null)
+					if (winner != null) {
+						System.out.println("Hack Master: " + winner);
 						updateInterface.showWinner(winner);
+					}
 				}
 				if (winner != null)
 					break;
 			}
-		
+			System.out.println("round");
 		}
 		// do something at the end
+		System.out.println("game over");
 	}
 }
 
