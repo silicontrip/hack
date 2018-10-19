@@ -147,4 +147,18 @@ public class Board {
 		return board.toString();
 	}
 
+	// this seems to be used a bit
+	public ArrayList<CardLocation> validMoves (Deck d)
+	{
+		ArrayList<CardLocation> moves = new ArrayList<CardLocation>();
+		for (BoardLocation bl: this.getValidSpace())
+			for (Card cd: d.getArray())
+			{
+				for (Card cdr: cd.getAllRotations())
+					if (this.isValid(bl,cdr))
+						moves.add(new CardLocation(cdr,bl));		
+			}
+		return moves;
+	}
+
 }
