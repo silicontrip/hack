@@ -67,8 +67,8 @@ public class Hack implements Runnable {
 			Deck thisDeck = new Deck(thisColour);
 			thisDeck.shuffle();
 			playersDeck.put(thisColour,thisDeck);
-			ui.showBoard(b);
-			ui.showDeck(thisDeck);
+			ui.updateBoard(b);
+			ui.updateDeck(thisDeck);
 		}
 		
 		// determine start player
@@ -97,21 +97,21 @@ public class Hack implements Runnable {
 			{
 				UserInterface currentPlayer = playersInterface.get(thisColour);
 				Deck currentDeck = playersDeck.get(thisColour);
-				currentPlayer.showBoard(b);
-				currentPlayer.showDeck(currentDeck);
-				CardLocation cl = currentPlayer.requestMove(this);
-				// wait for response...
+				currentPlayer.updateBoard(b);
+				currentPlayer.updateDeck(currentDeck);
+				CardLocation cl = currentPlayer.requestMove(); 
+				// wait for response...  implement blocking inside interface
 				b.play(cl);
 				currentDeck.removeCard(cl.card);
-				currentPlayer.showDeck(currentDeck);
+				currentPlayer.updateDeck(currentDeck);
 				
 				winner = b.getWinColour();
 				HashMap<Colour,Integer> score = b.getScore(colourOrder);
 				for (Colour updateColour: colourOrder)
 				{
 					UserInterface updateInterface  = playersInterface.get(updateColour);
-					updateInterface.showBoard(b);
-					updateInterface.showScore(score);
+					updateInterface.updateBoard(b);
+					updateInterface.updateScores(score);
 					// show winner
 					if (winner != null)
 						updateInterface.showWinner(winner);
