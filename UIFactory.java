@@ -9,7 +9,9 @@ public class UIFactory {
 		HashMap<String,Class> allInterfaceNames = new HashMap<String,Class>();
 
 		allInterfaceNames.put("none",null);
-		allInterfaceNames.put(UIRandom.class.getName(),UIRandom.class);
+		allInterfaceNames.put("random",UIRandom.class);
+		allInterfaceNames.put("high",UIHigh.class);
+		allInterfaceNames.put("cli",UICli.class);
 		return allInterfaceNames;
 	}
 

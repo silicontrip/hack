@@ -135,6 +135,8 @@ public class Board {
 		return totalScore;
 	}
 
+	public Card getCard(int x, int y) { return getCard(new BoardLocation(x,y)); }
+	public Card getCard(BoardLocation bl) { return board.get(bl); }
 	public Card getNorthCard(BoardLocation bl) { return board.get(bl.getNorth()); }
 	public Card getEastCard(BoardLocation bl) { return board.get(bl.getEast()); }
 	public Card getSouthCard(BoardLocation bl) { return board.get(bl.getSouth()); }
