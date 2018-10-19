@@ -26,8 +26,7 @@ public class ArgumentsGui implements ActionListener {
 
 		selector = new HashMap<Colour,JComboBox<String>>();
 
-		// get all colours
-		// get all interfaces
+		// need to make colour identifier for dropdown.
 		for (Colour cl: Colour.allColours())
 		{
 			JComboBox<String> jcb = new JComboBox<String>(UIFactory.getAllInterfaceNames());

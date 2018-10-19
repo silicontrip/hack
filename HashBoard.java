@@ -59,7 +59,7 @@ public class HashBoard {
 		}
 		return new BoardLocation(x,y);
 	}
-		public BoardLocation getMax() {
+	public BoardLocation getMax() {
 		int x=0;
 		int y=0;
 		for (BoardLocation bl: al.keySet())
@@ -70,5 +70,6 @@ public class HashBoard {
 				y=bl.getY();
 		}
 		return new BoardLocation(x,y);
+	}
 
 }
