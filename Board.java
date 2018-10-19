@@ -140,6 +140,9 @@ public class Board {
 	public Card getSouthCard(BoardLocation bl) { return board.get(bl.getSouth()); }
 	public Card getWestCard(BoardLocation bl) { return board.get(bl.getWest()); }
 
+	public BoardLocation getMin() { return board.getMin(); }
+	public BoardLocation getMax() { return board.getMax(); }
+
 	public String toString() {
 		return board.toString();
 	}

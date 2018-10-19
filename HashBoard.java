@@ -47,4 +47,28 @@ public class HashBoard {
 		return sb.toString();
 	}
 
+	public BoardLocation getMin() {
+		int x=0;
+		int y=0;
+		for (BoardLocation bl: al.keySet())
+		{
+			if (bl.getX() < x)
+				x=bl.getX();
+			if (bl.getY() < y)
+				y=bl.getY();
+		}
+		return new BoardLocation(x,y);
+	}
+		public BoardLocation getMax() {
+		int x=0;
+		int y=0;
+		for (BoardLocation bl: al.keySet())
+		{
+			if (bl.getX() > x)
+				x=bl.getX();
+			if (bl.getY() > y)
+				y=bl.getY();
+		}
+		return new BoardLocation(x,y);
+
 }

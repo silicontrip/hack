@@ -13,6 +13,9 @@ public class BoardLocation {
 	public BoardLocation getNorth() { return new BoardLocation (x,y-1); }
 	public BoardLocation getSouth() { return new BoardLocation (x,y+1); }
 	
+	public int getX() { return x; }
+	public int getY() { return y; }
+
 	@Override
 	public String toString() { return "" + x + ","+y; }
 
