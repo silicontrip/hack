@@ -103,4 +103,8 @@ public class Card {
 	public int imageKey() {
 		return getNorth().hashCode() ^ 4 * getEast().hashCode() ^ 16 * getSouth().hashCode() ^ 64 * getWest().hashCode() ^ 320 * getColour().hashCode();
 	}
+	
+	public String imageName() {
+		return "" + getColour() + getNorth() +getEast() + getSouth() + getWest() ;
+	}
 }

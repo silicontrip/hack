@@ -31,7 +31,11 @@ public class ArgumentsGui implements ActionListener {
 		{
 			JComboBox<String> jcb = new JComboBox<String>(UIFactory.getAllInterfaceNames());
 			selector.put(cl,jcb);
-			main.add(jcb);
+			JPanel tl = new JPanel();
+			    tl.add(new JLabel(""+cl+":"));
+			    tl.add(jcb);
+
+			main.add(tl);
 		}
 
 		main.add(go);
