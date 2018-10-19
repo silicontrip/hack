@@ -5,17 +5,17 @@ public class Hack implements Runnable {
 	HashMap<Colour,UserInterface> playersInterface;
 	HashMap<Colour,Deck> playersDeck;
 
-        public Hack(String[] a) { 
+    public Hack(String[] a) { 
 		arguments = a;
 	}
 
-        public static void main(String[] args) {
+    public static void main(String[] args) {
 		// put arguments into hack class
-                Hack hp = new Hack(args);
-                javax.swing.SwingUtilities.invokeLater(hp);
-        }
+        Hack hp = new Hack(args);
+        javax.swing.SwingUtilities.invokeLater(hp);
+    }
 
-        public void run() {
+    public void run() {
 		// depending on how this is invoked 
 		if (arguments.length==0)
 		{
@@ -24,9 +24,9 @@ public class Hack implements Runnable {
 			g.show();
 		} else {
 			// then create UIs from arguments
-			start(InterfaceFactory.getPlayers(arguments));
+			start(UIFactory.getPlayers(arguments));
 		}
-        }
+    }
 
 	private static <T> ArrayList<T> rotate(ArrayList<T> aL, int shift)
 	{

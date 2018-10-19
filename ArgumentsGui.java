@@ -1,7 +1,9 @@
 import javax.swing.*;
 public class ArgumentsGui {
 
-	public ArgumentsGui() { ; }
+	Hack caller; // this just feels wrong
+
+	public ArgumentsGui(Hack h) { caller=h; }
 
 	public void show() 
 	{
