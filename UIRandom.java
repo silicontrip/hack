@@ -12,6 +12,8 @@ public class UIRandom implements UserInterface {
 		rand = new Random();
 	}
 
+	public static String name() { return "random"; }
+
 	public void updateDeck (Deck d) { deck = d; }
 	public void updateBoard (Board b) { board = b; }
 
