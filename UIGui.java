@@ -2,13 +2,12 @@ import java.io.*;
 import java.util.*;
 
 import java.awt.image.*;
-import java.io.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import java.awt.Image;
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
+
 import java.net.URL;
 
 
@@ -16,12 +15,15 @@ public class UIGui extends UserInterface {
 
 	JFrame frame;
 	JPanel messagePanel;
-	JPanel boardPanel;
-	JPanel deckPanel;
+	UIGuiBoardPanel boardPanel;
+	UIGuiDeckPanel deckPanel;
+	JPanel main;
 
-	Jlabel messageLabel;
+	Boolean waitCard = true;
 
-	HashMap<String,Image> cardImage;
+	JLabel messageLabel;
+
+	HashMap<String,BufferedImage> cardImage;
 
 	private Deck deck;
 	private Board board;
@@ -29,49 +31,75 @@ public class UIGui extends UserInterface {
 
 	// Tautology class 
 	// maybe should make it paladromic... UIGiu
-	public UIGui() { 
+	public UIGui() throws IOException { 
 	
+		initAllCardKeys();  // create hashmap of card images
 
-		allCardKeys();
+	}
+
+	public void show() {
 
 		frame = new JFrame();
 		frame.setTitle("Hack");
 
 		messagePanel = new JPanel();
-		messageLabel = new JLabel();
-	
-		boardPanel = new JPanel();
-		deckPanel = new JPanel();
+		messagePanel.setPreferredSize(new Dimension(1200, 16));
 
-		
+		messageLabel = new JLabel();
+		messageLabel.setText("Status:");
+		messagePanel.add(messageLabel);
 	
+		boardPanel = new UIGuiBoardPanel(cardImage);
+		//boardPanel.setPreferredSize(new Dimension(1200, 704));
+		//boardPanel.setBackground(Color.black);
+
+		deckPanel = new UIGuiDeckPanel(cardImage);
+		//deckPanel.setPreferredSize(new Dimension(1200, 128));
+		//deckPanel.setBackground(Color.gray);
+
+		main = new JPanel();
+		main.setLayout(new BoxLayout(main, BoxLayout.PAGE_AXIS));
+		main.add(boardPanel);
+		main.add(messagePanel);
+		main.add(deckPanel);
+
+
+       // JButton go = new JButton("GO.");
+		// main.add(go);
+
+
+		frame.getContentPane().add(main,BorderLayout.CENTER);
+        frame.setSize(1280,900);
 	}
 
-	ArrayList<String> allCardKeys()
+	private void initAllCardKeys() throws IOException
 	{
-		ArrayList<String> cardKeys = new ArrayList<String>();
-		Colour c = Colour.allColours().get(0);
-		Deck d = new Deck(c);
+		cardImage = new HashMap<String,BufferedImage>();
 
-		for (Card cd: d.getArray())
+		for (Colour c: Colour.allColours()) 
 		{
-			for (Card cdr: cd.getAllRotations())
-			{
-				cardImage.put (cdr.imageName(),getImage(cdr.imageName()+".png"));
-			}
+			Deck d = new Deck(c);
+
+			for (Card cd: d.getArray())
+				for (Card cdr: cd.getAllRotations())
+					cardImage.put (cdr.imageName(),getImage(cdr.imageName()+".png"));
+				
 		}
 	}
 
-	private Image getImage(String imageName) {
-                
-                java.net.URL imageURL = Hack.class.getResource("/" + imageName);
-                if (imageURL != null) {
-                        return new ImageIcon(imageURL).getImage();
-                }
-                return null;
+	private BufferedImage getImage(String imageName) throws IOException {        
+        java.net.URL imageURL = Hack.class.getResource("Cards/" + imageName);
+        if (imageURL != null) {
+
+			BufferedImage img = ImageIO.read(imageURL);
+
+			//ImageIcon img = new ImageIcon(imageURL);
+
+            return img;
         }
-
-
+		System.out.println("Card Image "+ imageName + ": null");
+        return null;
+    }
 
 	private String readln() {
 		String ln = "";
@@ -89,17 +117,32 @@ public class UIGui extends UserInterface {
 	//public static String name() { return "random"; }
 
 	public void updateDeck (Deck d) { 
+		
 		deck = d; 
 		if (player==null)
 		    player = deck.getCard(0).getColour();
+
+		deckPanel.setDeck(d);
 	}
 
 
 	public void updateBoard (Board b) { 
 		board = b;
+		boardPanel.setBoard(b);
 	}
 	private void drawBoard()
 	{
+		frame.revalidate();
+		frame.repaint() ;
+
+		boardPanel.revalidate();
+
+		boardPanel.repaint();
+		deckPanel.repaint();
+		frame.setVisible(true);
+				frame.repaint() ;
+
+
 	}
 
 	public CardLocation requestMove()
@@ -119,6 +162,14 @@ public class UIGui extends UserInterface {
                 chosenMove++;
 		}
 
+/*
+while (waitCard) { 
+		try {
+			Thread.sleep(250); 
+		} catch (InterruptedException ie) { ; }
+	}
+	*/
+
         while (true)
         {
             try {
@@ -133,17 +184,17 @@ public class UIGui extends UserInterface {
 
 	}
     public void updateScores(HashMap<Colour,Integer> s) {
-	StringBuilder sc = new StringBuilder()
+		StringBuilder sc = new StringBuilder();
         for (Colour cl: s.keySet())
-		sc.append(""+cl+": " + s.get(cl));
+			sc.append(""+cl+": " + s.get(cl));
 
-	messagePanel.setText(sc.toString());
-	messagePanel.updateUI();
+		messageLabel.setText(sc.toString());
+		messagePanel.repaint();
     }
 
 	public void showWinner (Colour w){ 
-		messagePanel.setText("Winner: " + w);
-		messagePanel.updateUI();
+		messageLabel.setText("Winner: " + w);
+		messagePanel.repaint();
 	}
 
 }

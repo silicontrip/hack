@@ -11,6 +11,7 @@ public class UIRandom extends UserInterface {
 	public UIRandom() {
 		rand = new Random();
 	}
+    public void show() {;}
 
 	//public static String name() { return "random"; }
 

@@ -12,6 +12,8 @@ public class UIFactory {
 		allInterfaceNames.put("random",UIRandom.class);
 		allInterfaceNames.put("high",UIHigh.class);
 		allInterfaceNames.put("cli",UICli.class);
+		allInterfaceNames.put("gui",UIGui.class);
+	
 		return allInterfaceNames;
 	}
 

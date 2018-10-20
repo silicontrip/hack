@@ -9,6 +9,7 @@ public class UIHigh extends UserInterface {
     private Colour player=null;
 
 	public UIHigh() { ; }
+    public void show() {;}
 
 	//public static String name() { return "random"; }
 

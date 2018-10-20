@@ -13,7 +13,8 @@ public class Hack implements Runnable {
     public static void main(String[] args) {
 		// put arguments into hack class
         Hack hp = new Hack(args);
-        javax.swing.SwingUtilities.invokeLater(hp);
+        // javax.swing.SwingUtilities.invokeLater(hp);
+		hp.run();
     }
 
     public void run() {
@@ -85,6 +86,7 @@ public class Hack implements Runnable {
 
 			System.out.println("" + thisColour + "/" + ui.getClass().getName());
 
+			ui.show();
 			ui.updateBoard(b);
 			ui.updateDeck(thisDeck);
 		}

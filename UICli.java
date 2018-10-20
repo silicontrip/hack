@@ -9,6 +9,8 @@ public class UICli extends UserInterface {
 
 	public UICli() { ; }
 
+    public void show() {;}
+
 private String readln() {
 	String ln = "";
 	

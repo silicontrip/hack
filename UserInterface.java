@@ -5,6 +5,7 @@ public abstract class UserInterface {
     public abstract CardLocation requestMove();
     public abstract void updateScores(HashMap<Colour,Integer> s);
     public abstract void showWinner (Colour w);
+    public abstract void show();
 
    // public static String name() { return "abstract"; }
 }
