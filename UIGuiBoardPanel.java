@@ -29,7 +29,7 @@ public class UIGuiBoardPanel extends JPanel implements ActionListener
         int dx = (max.getX() - min.getX() + 1) * 64;
         int dy = (max.getY() - min.getY() + 1) * 64;
 
-        System.out.println("UIGuiBoardPanel::getPreferredSize "+ dx +"," +dy);
+       // System.out.println("UIGuiBoardPanel::getPreferredSize "+ dx +"," +dy);
 
         return new Dimension(dx,dy);
 
@@ -37,7 +37,7 @@ public class UIGuiBoardPanel extends JPanel implements ActionListener
 
     @Override
     public void paintComponent(Graphics g) {
-            System.out.println("UIGuiBoardPanel::paintComponent");
+           // System.out.println("UIGuiBoardPanel::paintComponent");
 
         super.paintComponent(g);
 
@@ -46,8 +46,9 @@ public class UIGuiBoardPanel extends JPanel implements ActionListener
        // System.out.println ("min: " + min + " max: "+max);
 
 		// TODO:  get this from the boardPanel itself
-		int centreX = 640;
-		int centreY = 352;
+        Dimension d = this.getSize();
+		int centreX = (int) d.getWidth() / 2;
+		int centreY = (int) d.getHeight() / 2;
 
         for (int y=min.getY(); y<=max.getY(); y++)
         {
@@ -56,12 +57,14 @@ public class UIGuiBoardPanel extends JPanel implements ActionListener
             {
 
                 Graphics2D canvas = (Graphics2D)g;
+                canvas.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+
 				// make configurable
 				int locx = 64 * x + centreX;
 				int locy = 64 * y + centreY;
                 Card c = board.getCard(x,y);
                 if (c != null) {
-                            System.out.println("draw card: " + c.imageName() + " @ " +x + ","+y);
+                       //     System.out.println("draw card: " + c.imageName() + " @ " +x + ","+y);
 
                 BufferedImage ci = cardImages.get(c.imageName());
 

@@ -150,6 +150,8 @@ public class UIGui extends UserInterface {
         drawBoard();
 		ArrayList<CardLocation> mv = board.validMoves(deck);
 
+		deckPanel.validCards(mv);
+
 		System.out.println("Valid Moves:");
 		int chosenMove = 0;
 
