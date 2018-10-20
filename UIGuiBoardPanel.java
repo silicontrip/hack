@@ -3,22 +3,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import java.util.HashMap;
+import java.util.*;
 
-public class UIGuiBoardPanel extends JPanel implements ActionListener
+public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, MouseListener
 {
     Board board;
     HashMap<String,BufferedImage> cardImages;
+    Card highLightCard;
+    private static final int tileSize=64;
+
     UIGuiBoardPanel(HashMap<String,BufferedImage> ci) 
     {
         super();
         cardImages=ci;
-        }
+        highLightCard=null;
+    }
 
     public void setBoard(Board b) { 
-                System.out.println("UIGuiBoardPanel::setBoard ");
+        board = b;
+    }
 
-        board = b;}
+    public void setHighlightCard(Card c) { highLightCard = c; }
 
     @Override
     public Dimension getPreferredSize ()
@@ -26,8 +31,8 @@ public class UIGuiBoardPanel extends JPanel implements ActionListener
 
     	BoardLocation min = board.getMin();
         BoardLocation max = board.getMax();
-        int dx = (max.getX() - min.getX() + 1) * 64;
-        int dy = (max.getY() - min.getY() + 1) * 64;
+        int dx = (max.getX() - min.getX() + 1) * tileSize;
+        int dy = (max.getY() - min.getY() + 1) * tileSize;
 
        // System.out.println("UIGuiBoardPanel::getPreferredSize "+ dx +"," +dy);
 
@@ -49,6 +54,7 @@ public class UIGuiBoardPanel extends JPanel implements ActionListener
         Dimension d = this.getSize();
 		int centreX = (int) d.getWidth() / 2;
 		int centreY = (int) d.getHeight() / 2;
+        Graphics2D canvas = (Graphics2D)g;
 
         for (int y=min.getY(); y<=max.getY(); y++)
         {
@@ -56,26 +62,50 @@ public class UIGuiBoardPanel extends JPanel implements ActionListener
             for (int x=min.getX(); x<= max.getX(); x++)
             {
 
-                Graphics2D canvas = (Graphics2D)g;
                 canvas.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
 				// make configurable
-				int locx = 64 * x + centreX;
-				int locy = 64 * y + centreY;
+				int locx = tileSize * x + centreX;
+				int locy = tileSize * y + centreY;
                 Card c = board.getCard(x,y);
                 if (c != null) {
                        //     System.out.println("draw card: " + c.imageName() + " @ " +x + ","+y);
 
                 BufferedImage ci = cardImages.get(c.imageName());
 
-                canvas.drawImage(ci,locx,locy,64,64,null);
+                canvas.drawImage(ci,locx,locy,tileSize,tileSize,null);
                 }
             }
-  
+        }
+        if (highLightCard != null)
+        {
+            ArrayList<BoardLocation> mv = board.validMoves(highLightCard);
+            for (BoardLocation bl: mv)
+            {
+                int locx = tileSize * bl.getX() + centreX;
+				int locy = tileSize * bl.getY() + centreY;
+               // canvas.setStroke(highLightStroke);
+                canvas.setPaint(Color.red);
+                canvas.drawRect (locx, locy, tileSize, tileSize);  
+            }
         }
 
     }
 
-    public void actionPerformed(ActionEvent e) { this.repaint(); } 
+    // public void actionPerformed(ActionEvent e) { this.repaint(); } 
+  public void mouseEntered(MouseEvent e) { ; }
+    public void mouseExited(MouseEvent e) { ; }
+    public void mouseDragged(MouseEvent e) { ; }
+    public void mouseReleased(MouseEvent e) { ; }
+    public void mousePressed(MouseEvent e) { ; }
 
+    public void mouseMoved(MouseEvent e) {
+		;
+    }
+
+    public void mouseClicked(MouseEvent e) { 
+                // ... select card		
+                // how to rotate
+		System.out.println("mouseClicked: " + e);
+	}
 }

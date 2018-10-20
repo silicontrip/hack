@@ -13,12 +13,15 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
     HashSet<Card> validCards; 
     private int highLight;
 
-    UIGuiDeckPanel(HashMap<String,BufferedImage> ci) {
+    UIGuiBoardPanel boardPanel;
+
+    UIGuiDeckPanel(HashMap<String,BufferedImage> ci,UIGuiBoardPanel bp) {
         super();
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
 
         cardImages=ci;
+        boardPanel=bp; // because we highlight valid moves on the board as the mouse hovers over the cards
     }
 
 
@@ -42,6 +45,15 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
         return new Dimension(x,tileSize);
     }
 
+    private Boolean validHighlight(int hl)
+    {
+        if (hl >= deck.size())
+            return false;
+        if (validCards.size() == 0)
+            return true;
+        return validCards.contains(deck.getCard(hl));
+    }
+
     @Override
     public void paintComponent(Graphics g) {
        // System.out.println("UIGuiDeckPanel::paintComponent");
@@ -50,9 +62,10 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
         Graphics2D canvas = (Graphics2D)g;
         canvas.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
+// move to instance variables.
         Composite card_greyed = AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.5f );
         Composite card_opaque = AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 1.0f );
-
+        BasicStroke highLightStroke = new BasicStroke(4.0f);
 
         int pos = 0;
         for (Card c: deck.getArray())
@@ -60,7 +73,7 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
             //System.out.println("draw card: " + c + " @ " + pos);
             if (validCards.size() ==  0 || validCards.contains(c)) 
             {
-                System.out.println("valid move: " + c);
+               // System.out.println("valid move: " + c);
                 canvas.setComposite(card_opaque);
             } else {
                 canvas.setComposite(card_greyed);
@@ -69,6 +82,17 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
 
             canvas.drawImage(ci,pos*tileSize,0,tileSize,tileSize,null);
             pos++;
+        }
+
+        if (highLight>=0)
+        {
+                int x = highLight * tileSize;
+                canvas.setStroke(highLightStroke);
+                canvas.setPaint(Color.red);
+                canvas.drawRect (x, 0, tileSize, tileSize);  
+
+                // draw rotate buttons
+
         }
   
     }
@@ -84,8 +108,14 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
         int newHighlight = e.getX() / tileSize;
         if (newHighlight != highLight )
         {
-            highLight = newHighlight;
-            System.out.println("highlight: " +highLight + " mouseMoved: -> " + e.getX() + ","+ e.getY());
+            if (validHighlight(newHighlight))
+            {
+                highLight = newHighlight;
+            // System.out.println("highlight: " +highLight + " mouseMoved: -> " + e.getX() + ","+ e.getY());
+                this.repaint();
+                boardPanel.setHighlightCard(deck.getCard(highLight));
+                boardPanel.repaint();
+            }
         }
     }
 

@@ -163,4 +163,13 @@ public class Board {
 		return moves;
 	}
 
+	public ArrayList<BoardLocation> validMoves(Card c)
+	{
+		ArrayList<BoardLocation> moves = new ArrayList<BoardLocation>();
+		for (BoardLocation bl: this.getValidSpace())
+			if (this.isValid(bl,c))
+				moves.add(bl);
+		return moves;
+	}
+
 }

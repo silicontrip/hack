@@ -53,7 +53,7 @@ public class UIGui extends UserInterface {
 		//boardPanel.setPreferredSize(new Dimension(1200, 704));
 		//boardPanel.setBackground(Color.black);
 
-		deckPanel = new UIGuiDeckPanel(cardImage);
+		deckPanel = new UIGuiDeckPanel(cardImage,boardPanel);
 		//deckPanel.setPreferredSize(new Dimension(1200, 128));
 		//deckPanel.setBackground(Color.gray);
 
@@ -132,17 +132,8 @@ public class UIGui extends UserInterface {
 	}
 	private void drawBoard()
 	{
-		frame.revalidate();
-		frame.repaint() ;
-
-		boardPanel.revalidate();
-
-		boardPanel.repaint();
-		deckPanel.repaint();
 		frame.setVisible(true);
-				frame.repaint() ;
-
-
+		frame.repaint() ;
 	}
 
 	public CardLocation requestMove()
