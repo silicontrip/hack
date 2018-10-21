@@ -44,12 +44,11 @@ public class UIGui extends UserInterface {
 		frame.setTitle("Hack");
 
 		messagePanel = new JPanel();
-		messagePanel.setPreferredSize(new Dimension(1200, 16));
+		messagePanel.setPreferredSize(new Dimension(1200, 24));
 
 		messageLabel = new JLabel();
 		messageLabel.setText("Status:");
 		messagePanel.add(messageLabel);
-		messagePanel.setPreferredSize(new Dimension(1200, 16));
 		messagePanel.setBackground(Color.white);
 	
 		boardPanel = new UIGuiBoardPanel(cardImage);

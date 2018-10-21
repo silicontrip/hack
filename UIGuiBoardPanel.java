@@ -28,7 +28,7 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
 
         cardImages=ci;
         highLightCard=null;
-        highLightX=0; // stupid sentinel value
+        highLightX=0; 
         highLightY=0;
 
         drawCard=false;
@@ -50,32 +50,22 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
     public void waiting () { chosenMove = null; highLightCard=null; }
     public Boolean waitMove() { return chosenMove == null; }
     public CardLocation getMove() { return chosenMove; }
-
-    public void setBoard(Board b) { 
-        board = b;
-    }
-
+    public void setBoard(Board b) { board = b; }
     public void setHighlightCard(Card c) { highLightCard = c; }
 
     @Override
     public Dimension getPreferredSize ()
     {
-
     	BoardLocation min = board.getMin();
         BoardLocation max = board.getMax();
         int dx = (max.getX() - min.getX() + 1) * tileSize;
         int dy = (max.getY() - min.getY() + 1) * tileSize;
 
-       // System.out.println("UIGuiBoardPanel::getPreferredSize "+ dx +"," +dy);
-
         return new Dimension(dx,dy);
-
     }
 
     @Override
     public void paintComponent(Graphics g) {
-           // System.out.println("UIGuiBoardPanel::paintComponent");
-
         super.paintComponent(g);
 
         Composite card_greyed = AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.5f );
@@ -83,7 +73,6 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
 
 	    BoardLocation min = board.getMin();
         BoardLocation max = board.getMax();
-       // System.out.println ("min: " + min + " max: "+max);
 
 		// TODO:  get this from the boardPanel itself
         Dimension d = this.getSize();
@@ -95,19 +84,15 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
         {
             for (int x=min.getX(); x<= max.getX(); x++)
             {
-
                 canvas.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
 				int locx = tileSize * x + centreX;
 				int locy = tileSize * y + centreY;
                 Card c = board.getCard(x,y);
                 if (c != null) {
-                       //     System.out.println("draw card: " + c.imageName() + " @ " +x + ","+y);
-
-                BufferedImage ci = cardImages.get(c.imageName());
-                canvas.setComposite(card_opaque);
-
-                canvas.drawImage(ci,locx,locy,tileSize,tileSize,null);
+                    BufferedImage ci = cardImages.get(c.imageName());
+                    canvas.setComposite(card_opaque);
+                    canvas.drawImage(ci,locx,locy,tileSize,tileSize,null);
                 }
             }
         }
@@ -116,10 +101,8 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
             ArrayList<BoardLocation> mv = board.validMoves(highLightCard);
             for (BoardLocation bl: mv)
             {
-               // System.out.println("valid: " + bl);
                 int locx = tileSize * bl.getX() + centreX;
 				int locy = tileSize * bl.getY() + centreY;
-               // canvas.setStroke(highLightStroke);
                 canvas.setPaint(Color.red);
                 canvas.drawRect (locx, locy, tileSize, tileSize);  
             }
@@ -131,44 +114,19 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
                 canvas.drawImage(ci,locx,locy,tileSize,tileSize,null);
             }
         }
-
     }
 
-    // public void actionPerformed(ActionEvent e) { this.repaint(); } 
-    public void mouseEntered(MouseEvent e) { 
-        drawCard=true; 
-       // System.out.println("Mouse Entered");
-    }
-    public void mouseExited(MouseEvent e) { 
-        drawCard=false; 
-      //  System.out.println("Mouse exit");
-
-    }
-    public void mouseDragged(MouseEvent e) { ; }
+    public void mouseEntered(MouseEvent e) { drawCard=true; }
+    public void mouseExited(MouseEvent e) { drawCard=false; }
+    public void mouseDragged(MouseEvent e) { ; }  // move board centre
     public void mouseReleased(MouseEvent e) { ; }
     public void mousePressed(MouseEvent e) { ; }
 
     public void mouseMoved(MouseEvent e) {
 
         Dimension d = this.getSize();
-
         int newX = (int)Math.floor((e.getX()-d.getWidth() / 2.0) * 1.0 / tileSize);
         int newY = (int)Math.floor((e.getY()-d.getHeight() / 2.0) * 1.0 / tileSize);
-/*
-        int centreX = (int) d.getWidth() / 2;
-		int centreY = (int) d.getHeight() / 2;
-
-        int x = e.getX();
-        int y = e.getY();
-
-        double tileX = (x-centreX) * 1.0 / tileSize;
-        double tileY = (y-centreY) * 1.0 / tileSize;
-
-        int newX = (int)Math.floor(tileX);
-        int newY = (int)Math.floor(tileY);
-
-        System.out.println("" +x +"(" + (x-centreX) +"),"+y+ "("+ (y-centreY) + ") -> "+ tileX +","+tileY + " (" + newX + "," + newY +")");
-*/
 
         if (newX!=highLightX || newY!=highLightY)
         {
@@ -181,12 +139,9 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
     public void mouseClicked(MouseEvent e) { 
         BoardLocation bl = new BoardLocation(highLightX,highLightY);
         chosenMove = null;
-       // System.out.println("mouseClicked: " + e);
 
         if (board.isValid(bl, highLightCard))
-        //{
-         chosenMove = new CardLocation(highLightCard,bl);
-        //System.out.println("valid move");
-       // } else { System.out.println("not valid move"); }
+            chosenMove = new CardLocation(highLightCard,bl);
+
 	}
 }
