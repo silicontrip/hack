@@ -32,16 +32,13 @@ public class UIGui extends UserInterface {
 	// Tautology class 
 	// maybe should make it paladromic... UIGiu
 	public UIGui()  { 
-	
-			cardImage = null;
-
+		cardImage = null;
 	}
 
 	@Override
 	public void show() throws IOException {
 
 		initAllCardKeys();  // create hashmap of card images
-
 
 		frame = new JFrame();
 		frame.setTitle("Hack");
@@ -52,25 +49,22 @@ public class UIGui extends UserInterface {
 		messageLabel = new JLabel();
 		messageLabel.setText("Status:");
 		messagePanel.add(messageLabel);
+		messagePanel.setPreferredSize(new Dimension(1200, 16));
+		messagePanel.setBackground(Color.white);
 	
 		boardPanel = new UIGuiBoardPanel(cardImage);
-		//boardPanel.setPreferredSize(new Dimension(1200, 704));
-		//boardPanel.setBackground(Color.black);
+		boardPanel.setPreferredSize(new Dimension(1200, 704));
+		boardPanel.setBackground(Color.black);
 
 		deckPanel = new UIGuiDeckPanel(cardImage,boardPanel);
-		//deckPanel.setPreferredSize(new Dimension(1200, 128));
-		//deckPanel.setBackground(Color.gray);
+		deckPanel.setPreferredSize(new Dimension(1200, 128));
+		deckPanel.setBackground(Color.gray);
 
 		main = new JPanel();
 		main.setLayout(new BoxLayout(main, BoxLayout.PAGE_AXIS));
 		main.add(boardPanel);
 		main.add(messagePanel);
 		main.add(deckPanel);
-
-
-       // JButton go = new JButton("GO.");
-		// main.add(go);
-
 
 		frame.getContentPane().add(main,BorderLayout.CENTER);
         frame.setSize(1280,900);
@@ -95,20 +89,14 @@ public class UIGui extends UserInterface {
 
 	private BufferedImage getImage(String imageName) throws IOException {        
         java.net.URL imageURL = Hack.class.getResource("Cards/" + imageName);
-        if (imageURL != null) {
-
-			BufferedImage img = ImageIO.read(imageURL);
-
-			//ImageIcon img = new ImageIcon(imageURL);
-
-            return img;
-        }
+        if (imageURL != null) 
+			return ImageIO.read(imageURL);
+        
 		System.out.println("Card Image "+ imageName + ": null");
         return null;
     }
 
 	public void updateDeck (Deck d) { 
-		
 		deck = d; 
 		if (player==null)
 		    player = deck.getCard(0).getColour();
@@ -121,7 +109,6 @@ public class UIGui extends UserInterface {
 		board = b;
 		boardPanel.setBoard(b);
 		frame.repaint() ;
-
 	}
 	private void drawBoard()
 	{
@@ -135,23 +122,9 @@ public class UIGui extends UserInterface {
 		ArrayList<CardLocation> mv = board.validMoves(deck);
 
 		deckPanel.validCards(mv);
-
-		/*
-		System.out.println("Valid Moves:");
-		int chosenMove = 0;
-
-		for (CardLocation cl: mv)
-			{
-				Board nb = board.playNew(cl.location, cl.card);
-				HashMap<Colour,Integer> scores = nb.getScore(Colour.allColours());
-				
-				System.out.println ("" + chosenMove+": " + cl.location + ": " + cl.card+ " S:"+ scores.get(player) );
-                chosenMove++;
-		}
-*/
 		boardPanel.waiting();
+
 		while (boardPanel.waitMove()) { 
-		// System.out.println("waiting for move...");
 			try {
 				Thread.sleep(250); 
 			} catch (InterruptedException ie) { ; }
@@ -159,6 +132,7 @@ public class UIGui extends UserInterface {
 		return boardPanel.getMove();
 
 	}
+
     public void updateScores(HashMap<Colour,Integer> s) {
 		StringBuilder sc = new StringBuilder();
         for (Colour cl: s.keySet())

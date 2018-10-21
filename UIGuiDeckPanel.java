@@ -13,6 +13,10 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
     HashSet<Card> validCards; 
     private int highLight;
 
+    private final Composite card_greyed;
+    private final Composite card_opaque;
+    private final BasicStroke highLightStroke;
+
     UIGuiBoardPanel boardPanel;
 
     UIGuiDeckPanel(HashMap<String,BufferedImage> ci,UIGuiBoardPanel bp) {
@@ -23,6 +27,11 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
         cardImages=ci;
         boardPanel=bp; // because we highlight valid moves on the board as the mouse hovers over the cards
         highLight=-1;
+
+        card_greyed = AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.5f );
+        card_opaque = AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 1.0f );
+        highLightStroke = new BasicStroke(4.0f);
+
     }
 
     public void enableMouse() { 
@@ -37,11 +46,7 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
     }
 
     public void unHighLight () { highLight = -1; }
-
-    public void setDeck(Deck d) { 
-        //  System.out.println("UIGuiDeckPanel::setDeck ");
-        deck = d;
-    }
+    public void setDeck(Deck d) { deck = d; }
 
     public void validCards(ArrayList<CardLocation> mv)
     {
@@ -51,12 +56,7 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
     }
 
     @Override
-    public Dimension getPreferredSize() {
-        int x = deck.size() * tileSize;
-       // System.out.println("UIGuiDeckPanel::getPreferredSize "+ x +"," +tileSize);
-
-        return new Dimension(x,tileSize);
-    }
+    public Dimension getPreferredSize() { return new Dimension(deck.size() * tileSize,tileSize); }
 
     private Boolean validHighlight(int hl)
     {
@@ -69,28 +69,19 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
 
     @Override
     public void paintComponent(Graphics g) {
-       // System.out.println("UIGuiDeckPanel::paintComponent");
         super.paintComponent(g);
 
         Graphics2D canvas = (Graphics2D)g;
         canvas.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
-// move to instance variables.
-        Composite card_greyed = AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.5f );
-        Composite card_opaque = AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 1.0f );
-        BasicStroke highLightStroke = new BasicStroke(4.0f);
-
         int pos = 0;
         for (Card c: deck.getArray())
         {
-            //System.out.println("draw card: " + c + " @ " + pos);
             if (validCards != null  && (validCards.size() ==  0 || validCards.contains(c)))
-            {
-               // System.out.println("valid move: " + c);
                 canvas.setComposite(card_opaque);
-            } else {
+            else 
                 canvas.setComposite(card_greyed);
-            }
+            
             BufferedImage ci = cardImages.get(c.imageName());
 
             canvas.drawImage(ci,pos*tileSize,0,tileSize,tileSize,null);
@@ -116,7 +107,6 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
     public void mousePressed(MouseEvent e) { ; }
 
     public void mouseMoved(MouseEvent e) {
-		 //System.out.println("mouseMoved: -> " + e.getX() + ","+ e.getY());
         // highlight card
         int newHighlight = e.getX() / tileSize;
         if (newHighlight != highLight )
@@ -124,7 +114,6 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
             if (validHighlight(newHighlight))
             {
                 highLight = newHighlight;
-            // System.out.println("highlight: " +highLight + " mouseMoved: -> " + e.getX() + ","+ e.getY());
                 this.repaint();
                 boardPanel.setHighlightCard(deck.getCard(highLight));
                 boardPanel.repaint();
@@ -133,13 +122,12 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
     }
 
     public void mouseClicked(MouseEvent e) { 
-                // ... select card		
-                // how to rotate
-      // System.out.println("mouseClicked: " + e);
-       Card rot =  deck.getCard(highLight);
-       rot.rotateCW();
-       boardPanel.setHighlightCard(rot);
-       boardPanel.repaint();
+        // ... select card		
+        // how to rotate
+        Card rot =  deck.getCard(highLight);
+        rot.rotateCW();
+        boardPanel.setHighlightCard(rot);
+        boardPanel.repaint();
         this.repaint();
 	}
 }

@@ -113,6 +113,7 @@ public class Hack implements Runnable {
 		colourOrder = rotate(new ArrayList<Colour>(playersInterface.keySet()),startPlayer);
 		
 		Colour winner = null;
+		HashMap<Colour,Integer> score=null;
 		while (countDeck()>0 && winner == null) // not win, not out of cards
 		{
 			for (Colour thisColour: colourOrder)
@@ -128,7 +129,7 @@ public class Hack implements Runnable {
 				currentPlayer.updateDeck(currentDeck);
 				
 				winner = b.getWinColour();
-				HashMap<Colour,Integer> score = b.getScore(colourOrder);
+				score = b.getScore(colourOrder);
 				for (Colour updateColour: colourOrder)
 				{
 					UserInterface updateInterface  = playersInterface.get(updateColour);
@@ -137,7 +138,6 @@ public class Hack implements Runnable {
 				//	System.out.println("Score: " + score);
 					// show winner
 					if (winner != null) {
-						System.out.println("Hack Master: " + winner);
 						updateInterface.showWinner(winner);
 					}
 				}
@@ -148,9 +148,11 @@ public class Hack implements Runnable {
 		}
 		// do something at the end
 		// System.out.println("game over");
+		System.out.println("Hack Master: " + winner);
+		System.out.println("Score: " + score);
 		if (winner==null)
 		{
-			HashMap<Colour,Integer> score = b.getScore(colourOrder);
+			score = b.getScore(colourOrder);
 			Colour pointsWinner=null;
 			int highscore = -1;
 			// notify winner by points
