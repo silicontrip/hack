@@ -1,6 +1,8 @@
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+
+
 public class Hack implements Runnable {
 	private String[] arguments;
 	HashMap<Colour,UserInterface> playersInterface;
@@ -22,13 +24,27 @@ public class Hack implements Runnable {
 		if (arguments.length==0)
 		{
 			// 1) setup invoke Gui 
+			playersInterface = null;
 			ArgumentsGui g = new ArgumentsGui(this);
 			g.show();
+
+			while (playersInterface == null) { 
+				try {
+					Thread.sleep(250); 
+				} catch (InterruptedException ie) { ; }
+			}
+			try {
+				start();
+			} catch (Exception e) {
+				g.errorDialog(e);
+
+			}
 		} else {
 
 			// then create UIs from arguments
 			try {
-				start(UIFactory.getPlayers(arguments));
+				this.setPlayers(UIFactory.getPlayers(arguments));
+				start();
 		
 			} catch (NoSuchElementException e) {
 					System.out.println("Too Many Arguments");
@@ -65,11 +81,12 @@ public class Hack implements Runnable {
 		return total;
 	}
 
-	public void start(HashMap<Colour,UserInterface> p) throws Exception
-	{
-		playersInterface = p;
+	public void setPlayers(HashMap<Colour,UserInterface> p) { playersInterface = p; }
 
-		System.out.println("Players: " + p.size());
+	public void start() throws Exception
+	{
+
+		// System.out.println("Players: " + playersInterface.size());
 
 		Board b = new Board();
 		playersDeck = new HashMap<Colour,Deck>();

@@ -46,6 +46,17 @@ public class ArgumentsGui implements ActionListener {
         frame.setVisible(true);
 
 	}
+	public void errorDialog(Exception e)
+	{
+		JOptionPane.showMessageDialog(this.frame,
+		e.getMessage(),
+		"Error Occured",
+		JOptionPane.ERROR_MESSAGE);
+
+		   System.out.print ("Exception: ");
+		System.out.println(e.getMessage());
+		e.printStackTrace();
+	}
 	public void actionPerformed(ActionEvent ev) {
 		try{
 			frame.setVisible(false);
@@ -57,18 +68,11 @@ public class ArgumentsGui implements ActionListener {
 					p.put(cl,UIFactory.getInterface(uiname));
 				//System.out.println("" + cl + ": " +uiname);
 			}
-			caller.start(p);
+			caller.setPlayers(p);
+			//caller.start();
 			frame.dispose();
 		} catch (Exception e) {
-
-            JOptionPane.showMessageDialog(this.frame,
-                e.getMessage(),
-                "Error Occured",
-                JOptionPane.ERROR_MESSAGE);
-
-            System.out.print ("Exception: ");
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+			errorDialog(e);
 		}
 	}
 
