@@ -22,6 +22,7 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
 
         cardImages=ci;
         boardPanel=bp; // because we highlight valid moves on the board as the mouse hovers over the cards
+        highLight=-1;
     }
 
 
@@ -122,6 +123,11 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
     public void mouseClicked(MouseEvent e) { 
                 // ... select card		
                 // how to rotate
-		System.out.println("mouseClicked: " + e);
+      // System.out.println("mouseClicked: " + e);
+       Card rot =  deck.getCard(highLight);
+       rot.rotateCW();
+       boardPanel.setHighlightCard(rot);
+       boardPanel.repaint();
+        this.repaint();
 	}
 }

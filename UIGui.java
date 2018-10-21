@@ -143,6 +143,7 @@ public class UIGui extends UserInterface {
 
 		deckPanel.validCards(mv);
 
+		/*
 		System.out.println("Valid Moves:");
 		int chosenMove = 0;
 
@@ -154,26 +155,15 @@ public class UIGui extends UserInterface {
 				System.out.println ("" + chosenMove+": " + cl.location + ": " + cl.card+ " S:"+ scores.get(player) );
                 chosenMove++;
 		}
-
-/*
-while (waitCard) { 
-		try {
-			Thread.sleep(250); 
-		} catch (InterruptedException ie) { ; }
-	}
-	*/
-
-        while (true)
-        {
-            try {
-                String rd = readln();
-                chosenMove = Integer.parseInt(rd);
-                if (chosenMove >= 0 && chosenMove <= mv.size())
-            	    return mv.get(chosenMove);
-            } catch (NumberFormatException e) {
-                ;
-            }
-        }
+*/
+		boardPanel.waiting();
+		while (boardPanel.waitMove()) { 
+		// System.out.println("waiting for move...");
+			try {
+				Thread.sleep(250); 
+			} catch (InterruptedException ie) { ; }
+		}
+		return boardPanel.getMove();
 
 	}
     public void updateScores(HashMap<Colour,Integer> s) {

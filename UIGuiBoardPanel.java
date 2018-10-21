@@ -10,14 +10,34 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
     Board board;
     HashMap<String,BufferedImage> cardImages;
     Card highLightCard;
+
+    Boolean drawCard;
+    int highLightX;
+    int highLightY;
+
+    CardLocation chosenMove;
+
     private static final int tileSize=64;
 
     UIGuiBoardPanel(HashMap<String,BufferedImage> ci) 
     {
         super();
+
+        this.addMouseListener(this);
+        this.addMouseMotionListener(this);
+
         cardImages=ci;
         highLightCard=null;
+        highLightX=0; // stupid sentinel value
+        highLightY=0;
+
+        drawCard=false;
+        chosenMove = null;
     }
+
+    public void waiting () { chosenMove = null; highLightCard=null; }
+    public Boolean waitMove() { return chosenMove == null; }
+    public CardLocation getMove() { return chosenMove; }
 
     public void setBoard(Board b) { 
         board = b;
@@ -46,6 +66,9 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
 
         super.paintComponent(g);
 
+        Composite card_greyed = AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.5f );
+        Composite card_opaque = AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 1.0f );
+
 	    BoardLocation min = board.getMin();
         BoardLocation max = board.getMax();
        // System.out.println ("min: " + min + " max: "+max);
@@ -72,6 +95,7 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
                        //     System.out.println("draw card: " + c.imageName() + " @ " +x + ","+y);
 
                 BufferedImage ci = cardImages.get(c.imageName());
+                canvas.setComposite(card_opaque);
 
                 canvas.drawImage(ci,locx,locy,tileSize,tileSize,null);
                 }
@@ -88,24 +112,57 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
                 canvas.setPaint(Color.red);
                 canvas.drawRect (locx, locy, tileSize, tileSize);  
             }
+            if (drawCard) {
+                int locx = tileSize * highLightX + centreX;
+				int locy = tileSize * highLightY + centreY;
+                BufferedImage ci = cardImages.get(highLightCard.imageName());
+                canvas.setComposite(card_greyed);
+                canvas.drawImage(ci,locx,locy,tileSize,tileSize,null);
+            }
         }
 
     }
 
     // public void actionPerformed(ActionEvent e) { this.repaint(); } 
-  public void mouseEntered(MouseEvent e) { ; }
-    public void mouseExited(MouseEvent e) { ; }
+    public void mouseEntered(MouseEvent e) { 
+        drawCard=true; 
+       // System.out.println("Mouse Entered");
+    }
+    public void mouseExited(MouseEvent e) { 
+        drawCard=false; 
+      //  System.out.println("Mouse exit");
+
+    }
     public void mouseDragged(MouseEvent e) { ; }
     public void mouseReleased(MouseEvent e) { ; }
     public void mousePressed(MouseEvent e) { ; }
 
     public void mouseMoved(MouseEvent e) {
-		;
+
+        Dimension d = this.getSize();
+		int centreX = (int) d.getWidth() / 2;
+		int centreY = (int) d.getHeight() / 2;
+
+        int newX = (e.getX() - centreX) / tileSize;
+        int newY = (e.getY() - centreY) / tileSize;
+
+        if (newX!=highLightX || newY!=highLightY)
+        {
+            highLightX = newX;
+            highLightY = newY;
+            this.repaint();
+        }
     }
 
     public void mouseClicked(MouseEvent e) { 
-                // ... select card		
-                // how to rotate
-		System.out.println("mouseClicked: " + e);
+        BoardLocation bl = new BoardLocation(highLightX,highLightY);
+        chosenMove = null;
+        System.out.println("mouseClicked: " + e);
+
+        if (board.isValid(bl, highLightCard))
+        {
+         chosenMove = new CardLocation(highLightCard,bl);
+        System.out.println("valid move");
+        } else { System.out.println("not valid move"); }
 	}
 }
