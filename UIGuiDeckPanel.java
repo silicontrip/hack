@@ -36,6 +36,8 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
         highLight = -1; 
     }
 
+    public void unHighLight () { highLight = -1; }
+
     public void setDeck(Deck d) { 
         //  System.out.println("UIGuiDeckPanel::setDeck ");
         deck = d;
@@ -82,7 +84,7 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
         for (Card c: deck.getArray())
         {
             //System.out.println("draw card: " + c + " @ " + pos);
-            if (validCards.size() ==  0 || validCards.contains(c)) 
+            if (validCards != null  && (validCards.size() ==  0 || validCards.contains(c)))
             {
                // System.out.println("valid move: " + c);
                 canvas.setComposite(card_opaque);

@@ -181,12 +181,12 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
     public void mouseClicked(MouseEvent e) { 
         BoardLocation bl = new BoardLocation(highLightX,highLightY);
         chosenMove = null;
-        System.out.println("mouseClicked: " + e);
+       // System.out.println("mouseClicked: " + e);
 
         if (board.isValid(bl, highLightCard))
-        {
+        //{
          chosenMove = new CardLocation(highLightCard,bl);
-        System.out.println("valid move");
-        } else { System.out.println("not valid move"); }
+        //System.out.println("valid move");
+       // } else { System.out.println("not valid move"); }
 	}
 }
