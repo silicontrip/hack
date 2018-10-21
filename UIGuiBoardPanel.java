@@ -151,17 +151,24 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
     public void mouseMoved(MouseEvent e) {
 
         Dimension d = this.getSize();
-		int centreX = (int) d.getWidth() / 2;
+
+        int newX = (int)Math.floor((e.getX()-d.getWidth() / 2.0) * 1.0 / tileSize);
+        int newY = (int)Math.floor((e.getY()-d.getHeight() / 2.0) * 1.0 / tileSize);
+/*
+        int centreX = (int) d.getWidth() / 2;
 		int centreY = (int) d.getHeight() / 2;
 
         int x = e.getX();
         int y = e.getY();
 
-        int newX = (int)Math.floor((x - centreX) / tileSize);
-        int newY = (int)Math.floor((y - centreY) / tileSize);
+        double tileX = (x-centreX) * 1.0 / tileSize;
+        double tileY = (y-centreY) * 1.0 / tileSize;
 
-        System.out.println("" +x +"(" + (x-centreX) +"),"+y+ "("+ (y-centreY) + ") -> "+ newX +","+newY);
+        int newX = (int)Math.floor(tileX);
+        int newY = (int)Math.floor(tileY);
 
+        System.out.println("" +x +"(" + (x-centreX) +"),"+y+ "("+ (y-centreY) + ") -> "+ tileX +","+tileY + " (" + newX + "," + newY +")");
+*/
 
         if (newX!=highLightX || newY!=highLightY)
         {
