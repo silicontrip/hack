@@ -31,13 +31,17 @@ public class UIGui extends UserInterface {
 
 	// Tautology class 
 	// maybe should make it paladromic... UIGiu
-	public UIGui() throws IOException { 
+	public UIGui()  { 
 	
-		initAllCardKeys();  // create hashmap of card images
+			cardImage = null;
 
 	}
 
-	public void show() {
+	@Override
+	public void show() throws IOException {
+
+		initAllCardKeys();  // create hashmap of card images
+
 
 		frame = new JFrame();
 		frame.setTitle("Hack");
@@ -74,16 +78,18 @@ public class UIGui extends UserInterface {
 
 	private void initAllCardKeys() throws IOException
 	{
-		cardImage = new HashMap<String,BufferedImage>();
-
-		for (Colour c: Colour.allColours()) 
+		if (cardImage == null)
 		{
-			Deck d = new Deck(c);
+			cardImage = new HashMap<String,BufferedImage>();
 
-			for (Card cd: d.getArray())
-				for (Card cdr: cd.getAllRotations())
-					cardImage.put (cdr.imageName(),getImage(cdr.imageName()+".png"));
-				
+			for (Colour c: Colour.allColours()) 
+			{
+				Deck d = new Deck(c);
+
+				for (Card cd: d.getArray())
+					for (Card cdr: cd.getAllRotations())
+						cardImage.put (cdr.imageName(),getImage(cdr.imageName()+".png"));	
+			}
 		}
 	}
 
@@ -101,21 +107,6 @@ public class UIGui extends UserInterface {
         return null;
     }
 
-	private String readln() {
-		String ln = "";
-	
-		try {
-			BufferedReader is = new BufferedReader(new InputStreamReader(System.in));
-			ln = is.readLine();
-			// if (ln.length() == 0 ) return null;
-		} catch (IOException e) {
-			System.out.println("IOException: " + e);
-		}
-		return ln;
-	}
-
-	//public static String name() { return "random"; }
-
 	public void updateDeck (Deck d) { 
 		
 		deck = d; 
@@ -129,6 +120,8 @@ public class UIGui extends UserInterface {
 	public void updateBoard (Board b) { 
 		board = b;
 		boardPanel.setBoard(b);
+		frame.repaint() ;
+
 	}
 	private void drawBoard()
 	{
@@ -169,7 +162,7 @@ public class UIGui extends UserInterface {
     public void updateScores(HashMap<Colour,Integer> s) {
 		StringBuilder sc = new StringBuilder();
         for (Colour cl: s.keySet())
-			sc.append(""+cl+": " + s.get(cl));
+			sc.append(""+cl+": " + s.get(cl) + " ");
 
 		messageLabel.setText(sc.toString());
 		messagePanel.repaint();
@@ -177,6 +170,8 @@ public class UIGui extends UserInterface {
 
 	public void showWinner (Colour w){ 
 		messageLabel.setText("Winner: " + w);
+		deckPanel.disableMouse();
+		boardPanel.disableMouse();
 		messagePanel.repaint();
 	}
 

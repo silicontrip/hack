@@ -54,7 +54,6 @@ public class Board {
 		return nb;
 	}
 
-	
 	public ArrayList<Card> getAdjacentCards(BoardLocation bl) 
 	{
 		ArrayList<Card> cards = new ArrayList<Card>();
@@ -81,10 +80,8 @@ public class Board {
 		if (board.getUsedLocations().size() == 0)
 			validSpaces.add(new BoardLocation(0,0));
 		for (BoardLocation bl : board.getUsedLocations())
-		{
-			// add all empty adjacent spaces
 			validSpaces.addAll(getEmptyAdjacent(bl));
-		}
+
 		return validSpaces;
 	}
 

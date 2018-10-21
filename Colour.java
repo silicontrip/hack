@@ -3,6 +3,7 @@ public class Colour {
 	ColourType type;
 
 	public Colour (ColourType n) { type = n; }
+	public Colour (Colour c) { type = c.getType(); }
 	public ColourType getType() { return type; }
 	public static ArrayList<Colour> allColours() 
 	{

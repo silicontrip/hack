@@ -17,7 +17,7 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
 
     CardLocation chosenMove;
 
-    private static final int tileSize=64;
+    private static final int tileSize=96;
 
     UIGuiBoardPanel(HashMap<String,BufferedImage> ci) 
     {
@@ -35,6 +35,18 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
         chosenMove = null;
     }
 
+    public void enableMouse() { 
+        this.addMouseListener(this);
+        this.addMouseMotionListener(this);   
+    }
+
+    public void disableMouse() { 
+        this.removeMouseListener(this);
+        this.removeMouseMotionListener(this);   
+        drawCard=false;
+        chosenMove = null;
+        highLightCard=null;
+    }
     public void waiting () { chosenMove = null; highLightCard=null; }
     public Boolean waitMove() { return chosenMove == null; }
     public CardLocation getMove() { return chosenMove; }
@@ -81,13 +93,11 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
 
         for (int y=min.getY(); y<=max.getY(); y++)
         {
-        
             for (int x=min.getX(); x<= max.getX(); x++)
             {
 
                 canvas.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
-				// make configurable
 				int locx = tileSize * x + centreX;
 				int locy = tileSize * y + centreY;
                 Card c = board.getCard(x,y);
@@ -106,6 +116,7 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
             ArrayList<BoardLocation> mv = board.validMoves(highLightCard);
             for (BoardLocation bl: mv)
             {
+               // System.out.println("valid: " + bl);
                 int locx = tileSize * bl.getX() + centreX;
 				int locy = tileSize * bl.getY() + centreY;
                // canvas.setStroke(highLightStroke);
@@ -143,8 +154,14 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
 		int centreX = (int) d.getWidth() / 2;
 		int centreY = (int) d.getHeight() / 2;
 
-        int newX = (e.getX() - centreX) / tileSize;
-        int newY = (e.getY() - centreY) / tileSize;
+        int x = e.getX();
+        int y = e.getY();
+
+        int newX = (int)Math.floor((x - centreX) / tileSize);
+        int newY = (int)Math.floor((y - centreY) / tileSize);
+
+        System.out.println("" +x +"(" + (x-centreX) +"),"+y+ "("+ (y-centreY) + ") -> "+ newX +","+newY);
+
 
         if (newX!=highLightX || newY!=highLightY)
         {

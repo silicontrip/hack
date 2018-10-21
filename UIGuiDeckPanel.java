@@ -9,7 +9,7 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
 {
     Deck deck;
     HashMap<String,BufferedImage> cardImages;
-    private static final int tileSize=96;
+    private static final int tileSize=128;
     HashSet<Card> validCards; 
     private int highLight;
 
@@ -25,6 +25,16 @@ public class UIGuiDeckPanel extends JPanel implements  MouseMotionListener, Mous
         highLight=-1;
     }
 
+    public void enableMouse() { 
+        this.addMouseListener(this);
+        this.addMouseMotionListener(this);   
+    }
+
+    public void disableMouse() { 
+        this.removeMouseListener(this);
+        this.removeMouseMotionListener(this);  
+        highLight = -1; 
+    }
 
     public void setDeck(Deck d) { 
         //  System.out.println("UIGuiDeckPanel::setDeck ");

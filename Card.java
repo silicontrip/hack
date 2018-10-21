@@ -54,18 +54,25 @@ public class Card {
 	Colour getColour() { return col; }
 
 	public Boolean matchNorth(Card c) { 
+	//	System.out.println("match North: " + this + " -> "+ c);
 		if (c == null) return true;
 		return getNorth().match(c.getSouth()); 
 	}
 	public Boolean matchEast(Card c) {
+	//	System.out.println("match East: " + this + " -> "+ c);
+
 		if (c == null) return true;
 		return getEast().match(c.getWest()); 
 	}
 	public Boolean matchSouth(Card c) { 
+	//	System.out.println("match South: " + this + " -> "+ c);
+
 		if (c == null) return true;
 		return getSouth().match(c.getNorth()); 
 	}
 	public Boolean matchWest(Card c) { 
+	//	System.out.println("match West: " + this + " -> "+ c);
+
 		if (c == null) return true;
 		return getWest().match(c.getEast()); 
 	}
@@ -81,8 +88,8 @@ public class Card {
 		return nc;
 	}
 	private void resetRotation() { rotate = 0; }
-	public void rotateCW() {  rotate = (rotate + 1) % 4; }
-	public void rotateCCW() {  rotate = (rotate + 3) % 4; }
+	public void rotateCW() {  rotate = (rotate + 3) % 4; }
+	public void rotateCCW() {  rotate = (rotate + 1) % 4; }
 	public void rotate180() {  rotate = (rotate + 2) % 4; }
 
 	@Override 
@@ -105,6 +112,7 @@ public class Card {
 	}
 	
 	public String imageName() {
+		// System.out.println("" + getColour() + getNorth() +getEast() + getSouth() + getWest());
 		return "" + getColour() + getNorth() +getEast() + getSouth() + getWest() ;
 	}
 }

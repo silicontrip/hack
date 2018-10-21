@@ -65,7 +65,7 @@ public class Hack implements Runnable {
 		return total;
 	}
 
-	public void start(HashMap<Colour,UserInterface> p)
+	public void start(HashMap<Colour,UserInterface> p) throws Exception
 	{
 		playersInterface = p;
 
@@ -134,7 +134,7 @@ public class Hack implements Runnable {
 					UserInterface updateInterface  = playersInterface.get(updateColour);
 					updateInterface.updateBoard(b);
 					updateInterface.updateScores(score);
-					System.out.println("Score: " + score);
+				//	System.out.println("Score: " + score);
 					// show winner
 					if (winner != null) {
 						System.out.println("Hack Master: " + winner);
@@ -144,10 +144,31 @@ public class Hack implements Runnable {
 				if (winner != null)
 					break;
 			}
-			System.out.println("round");
+			// System.out.println("round");
 		}
 		// do something at the end
-		System.out.println("game over");
+		// System.out.println("game over");
+		if (winner==null)
+		{
+			HashMap<Colour,Integer> score = b.getScore(colourOrder);
+			Colour pointsWinner=null;
+			int highscore = -1;
+			// notify winner by points
+			for (Colour findColour: colourOrder)
+			{
+				if (score.get(findColour) > highscore)
+				{
+					highscore = score.get(findColour);
+					pointsWinner = new Colour (findColour);
+				}
+			}
+			// need a notify all method...
+			for (Colour findColour: colourOrder)
+			{
+				UserInterface updateInterface  = playersInterface.get(findColour);
+				updateInterface.showWinner(pointsWinner);
+			}
+		}
 	}
 }
 
