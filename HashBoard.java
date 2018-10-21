@@ -28,25 +28,6 @@ public class HashBoard {
 
 	public int size() { return al.size(); }
 
-	public String toString() {
-		StringBuilder sb=new StringBuilder("[");  
-		Boolean first = true;
-		for (BoardLocation bl : al.keySet()) {
-			Card c = al.get(bl);
-			if (!first) {
-				sb.append(",");
-			}
-			first = false;
-			sb.append("{");
-			sb.append(bl);
-			sb.append(":");
-			sb.append(c);
-			sb.append("}");
-		}
-		sb.append("]");
-		return sb.toString();
-	}
-
 	public BoardLocation getMin() {
 		int x=0;
 		int y=0;
@@ -70,6 +51,26 @@ public class HashBoard {
 				y=bl.getY();
 		}
 		return new BoardLocation(x,y);
+	}
+
+
+	public String toString() {
+		StringBuilder sb=new StringBuilder("[");  
+		Boolean first = true;
+		for (BoardLocation bl : al.keySet()) {
+			Card c = al.get(bl);
+			if (!first) {
+				sb.append(",");
+			}
+			first = false;
+			sb.append("{");
+			sb.append(bl);
+			sb.append(":");
+			sb.append(c);
+			sb.append("}");
+		}
+		sb.append("]");
+		return sb.toString();
 	}
 
 }
