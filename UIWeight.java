@@ -17,7 +17,7 @@ public class UIWeight extends UserInterface {
 		// load network weights
 		moves = new ArrayList<Integer>();
 		try {
-			FileInputStream fi = new FileInputStream(new File("UIWeight.txt"));
+			FileInputStream fi = new FileInputStream(new File("UIWeight.pojo"));
 			ObjectInputStream oi = new ObjectInputStream(fi);
 			weights = (HashMap<Integer,Integer>) oi.readObject();
 			oi.close();
@@ -57,7 +57,7 @@ public class UIWeight extends UserInterface {
 		}
 		// save net
 		try {
-			FileOutputStream f = new FileOutputStream(new File("UIWeight.txt"));
+			FileOutputStream f = new FileOutputStream(new File("UIWeight.pojo"));
 			ObjectOutputStream o = new ObjectOutputStream(f);
 			o.writeObject(weights);
 			o.close();
