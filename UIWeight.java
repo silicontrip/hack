@@ -26,8 +26,6 @@ public class UIWeight extends UserInterface {
 			e.printStackTrace();
 		} // maybe other errors...
 
-
-
 	}
     public void show() {;}
 
@@ -45,6 +43,13 @@ public class UIWeight extends UserInterface {
 	}
 	public void showWinner (Colour w)
 	{
+		/*
+		int count=0;
+		for (Integer mv: moves) {
+			System.out.println("" +count+ ": " + mv);
+			count ++;
+		}
+		*/
 		if (player.equals(w))
 		{
 			//reward net
@@ -66,23 +71,109 @@ public class UIWeight extends UserInterface {
 		}
 	}
 
-	private Integer getFive(BoardLocation bl, Colour c)
+	private int[][] getFiveMatrix(BoardLocation bl, Colour c)
 	{
+		int[][] mat = new int[5][5];
+
 		int cx = bl.getX();
 		int cy = bl.getY();
-		int state = 0;
 		for (int y=cy-2; y<cy+3; y++)
 			for (int x=cx-2; x <cx+3; x++)
 			{
 				Card cd = board.getCard(x,y);
+				mat[x+2-cx][y+2-cy] = 0;
+
 				if (cd != null)
 					if (c.equals(cd.getColour()))
-						state = state | 1;
-				state = state << 1;
+						mat[x+2-cx][y+2-cy] = 1;
+					else
+						mat[x+2-cx][y+2-cy] = 2;
 			}
-			// need to do rotation.
+		return mat;
+	}
 
-		return new Integer(state);
+	private int calcState (int[][] matrix)
+	{
+		int state = 0;
+
+		for (int y=0; y<5; y++)
+			for (int x=0; x<5; x++) {
+				state = state * 3;
+				state = state | matrix[x][y];
+			}
+
+		return state;
+	}
+
+	private int[][] rotateMatrix(int[][] matrix)
+	{
+		int[][] mat = new int[5][5];
+
+		for (int x=0;x<5;x++)
+			for (int y=4; y>=0; y--)
+				mat[4-y][x] = matrix[x][y];
+
+		return mat;
+	}
+
+	private int[][] mirrorMatrix(int[][] matrix)
+	{
+		int[][] mat = new int[5][5];
+
+		for (int y=0;y<5;y++)
+			for (int x=4; x>=0; x--)
+				mat[4-x][y] = matrix[x][y];
+
+		return mat;
+	}
+
+	private Integer getFive(BoardLocation bl, Colour c)
+	{
+		int minState;
+		int state;
+		int[][] mat = getFiveMatrix(bl,c);
+		
+		state = calcState(mat);
+		minState = state;
+
+		mat = rotateMatrix(mat);
+		state = calcState(mat);
+		if (state<minState)
+			minState = state;
+
+		mat = rotateMatrix(mat);
+		state = calcState(mat);
+		if (state<minState)
+			minState = state;
+
+		mat = rotateMatrix(mat);
+		state = calcState(mat);
+		if (state<minState)
+			minState = state;
+			
+		mat = rotateMatrix(mat);
+		mat = mirrorMatrix(mat);
+		state = calcState(mat);
+		if (state<minState)
+			minState = state;
+	
+		mat = rotateMatrix(mat);
+		state = calcState(mat);
+		if (state<minState)
+			minState = state;
+
+		mat = rotateMatrix(mat);
+		state = calcState(mat);
+		if (state<minState)
+			minState = state;
+
+		mat = rotateMatrix(mat);
+		state = calcState(mat);
+		if (state<minState)
+			minState = state;
+
+			return new Integer(minState);
+
 	}
 
 	public CardLocation requestMove()
@@ -96,6 +187,7 @@ public class UIWeight extends UserInterface {
 		Integer bestState=0;
 		for (CardLocation cl: mv)
 		{
+			/*
 			for (Colour pp: board.getColours())
 			{
 				// this should help with defensive play
@@ -110,6 +202,7 @@ public class UIWeight extends UserInterface {
 					chosenMove = cl; 
 				}
 			}
+			*/
 			Integer state = getFive(cl.location,player);
 			if (!weights.containsKey(state))
 				weights.put(state,new Integer(128));
@@ -121,8 +214,10 @@ public class UIWeight extends UserInterface {
 				chosenMove = cl; 
 			}
 
+			System.out.println("loc:" + cl.location + " state:"+ state + " weight:" + weights.get(state));
 
 		}
+		System.out.println("---");
 		if (bestState !=0)
 			moves.add(bestState);
 		return chosenMove;
