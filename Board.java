@@ -106,6 +106,15 @@ public class Board {
 		}
 		return totalScore;
 	}
+
+	public HashSet<Colour> getColours()
+	{
+		HashSet<Colour> cc = new HashSet<Colour>();
+		for (BoardLocation bl : board.getUsedLocations())
+			cc.add(getCard(bl).getColour());
+		return cc;
+	}
+
 	public Colour getWinColour()
 	{
 		HashMap<Colour,Boolean> winMap = getWin(Colour.allColours());

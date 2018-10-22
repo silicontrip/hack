@@ -96,6 +96,20 @@ public class UIWeight extends UserInterface {
 		Integer bestState=0;
 		for (CardLocation cl: mv)
 		{
+			for (Colour pp: board.getColours())
+			{
+				// this should help with defensive play
+				Integer state = getFive(cl.location,pp);
+				if (!weights.containsKey(state))
+					weights.put(state,new Integer(128));
+
+				if (weights.get(state) > best)
+				{
+					best = weights.get(state);
+					bestState = state;
+					chosenMove = cl; 
+				}
+			}
 			Integer state = getFive(cl.location,player);
 			if (!weights.containsKey(state))
 				weights.put(state,new Integer(128));
@@ -106,6 +120,7 @@ public class UIWeight extends UserInterface {
 				bestState = state;
 				chosenMove = cl; 
 			}
+
 
 		}
 		if (bestState !=0)
