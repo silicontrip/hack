@@ -15,14 +15,18 @@ public class UIWeight extends UserInterface {
 
 	public UIWeight() { 
 		// load network weights
+		moves = new ArrayList<Integer>();
 		try {
 			FileInputStream fi = new FileInputStream(new File("UIWeight.txt"));
 			ObjectInputStream oi = new ObjectInputStream(fi);
-			HashMap<Integer,Integer> weights = (HashMap<Integer,Integer>) oi.readObject();
+			weights = (HashMap<Integer,Integer>) oi.readObject();
 			oi.close();
 		} catch (Exception e) {
 			weights = new HashMap<Integer,Integer>();
+			e.printStackTrace();
 		} // maybe other errors...
+
+
 
 	}
     public void show() {;}
@@ -70,8 +74,10 @@ public class UIWeight extends UserInterface {
 		for (int y=cy-2; y<cy+3; y++)
 			for (int x=cx-2; x <cx+3; x++)
 			{
-				if (c.equals(board.getCard(x,y).getColour()))
-					state = state | 1;
+				Card cd = board.getCard(x,y);
+				if (cd != null)
+					if (c.equals(cd.getColour()))
+						state = state | 1;
 				state = state << 1;
 			}
 			// need to do rotation.

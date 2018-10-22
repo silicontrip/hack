@@ -15,7 +15,6 @@ public class Hack implements Runnable {
     public static void main(String[] args) {
 		// put arguments into hack class
         Hack hp = new Hack(args);
-        // javax.swing.SwingUtilities.invokeLater(hp);
 		hp.run();
     }
 
@@ -37,15 +36,12 @@ public class Hack implements Runnable {
 				start();
 			} catch (Exception e) {
 				g.errorDialog(e);
-
 			}
 		} else {
-
 			// then create UIs from arguments
 			try {
 				this.setPlayers(UIFactory.getPlayers(arguments));
 				start();
-		
 			} catch (NoSuchElementException e) {
 					System.out.println("Too Many Arguments");
 			} catch (RuntimeException e) {
@@ -74,7 +70,6 @@ public class Hack implements Runnable {
 	}
 
 	public int countDeck () {
-
 		int total= 0;
 		for (Deck dk: playersDeck.values())
 			total += dk.size();
@@ -85,7 +80,6 @@ public class Hack implements Runnable {
 
 	public void start() throws Exception
 	{
-
 		// System.out.println("Players: " + playersInterface.size());
 
 		Board b = new Board();
@@ -110,9 +104,10 @@ public class Hack implements Runnable {
 		
 		// determine start player
 		int startPlayer=0;
-		int startLocation = 999;  // couldn't do it smarter
+		// int startLocation = 999;  // couldn't do it smarter
+		int startLocation = playersDeck.get(colourOrder.get(0)).startPosition(); // yes I can.
 
-		for (int i=0; i<colourOrder.size(); i++)
+		for (int i=1; i<colourOrder.size(); i++)
 		//for (Deck td: playerDeck.keySet())
 		{
 			Deck td = playersDeck.get(colourOrder.get(i));

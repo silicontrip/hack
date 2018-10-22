@@ -13,6 +13,7 @@ public class UIFactory {
 		allInterfaceNames.put("high",UIHigh.class);
 		allInterfaceNames.put("cli",UICli.class);
 		allInterfaceNames.put("gui",UIGui.class);
+		allInterfaceNames.put("weight",UIWeight.class);
 	
 		return allInterfaceNames;
 	}
