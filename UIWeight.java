@@ -10,19 +10,23 @@ public class UIWeight extends UserInterface {
 	private Board board;
 	private Colour player=null;
 	
-	private HashMap<Integer,Integer> weights;
-	private ArrayList<Integer> moves;
+	private HashMap<Long,Integer> weights;
+	private ArrayList<Long> moves;
+
+	private Random rand;
 
 	public UIWeight() { 
 		// load network weights
-		moves = new ArrayList<Integer>();
+		moves = new ArrayList<Long>();
+		rand = new Random();
+
 		try {
 			FileInputStream fi = new FileInputStream(new File("UIWeight.pojo"));
 			ObjectInputStream oi = new ObjectInputStream(fi);
-			weights = (HashMap<Integer,Integer>) oi.readObject();
+			weights = (HashMap<Long,Integer>) oi.readObject();
 			oi.close();
 		} catch (Exception e) {
-			weights = new HashMap<Integer,Integer>();
+			weights = new HashMap<Long,Integer>();
 			e.printStackTrace();
 		} // maybe other errors...
 
@@ -53,11 +57,11 @@ public class UIWeight extends UserInterface {
 		if (player.equals(w))
 		{
 			//reward net
-			for (Integer mv: moves)
+			for (Long mv: moves)
 				weights.put(mv,weights.get(mv)+1);
 		} else {
 			// punish net
-			for (Integer mv: moves)
+			for (Long mv: moves)
 				weights.put(mv,weights.get(mv)-1);
 		}
 		// save net
@@ -92,9 +96,9 @@ public class UIWeight extends UserInterface {
 		return mat;
 	}
 
-	private int calcState (int[][] matrix)
+	private long calcState (int[][] matrix)
 	{
-		int state = 0;
+		long state = 0;
 
 		for (int y=0; y<5; y++)
 			for (int x=0; x<5; x++) {
@@ -127,10 +131,10 @@ public class UIWeight extends UserInterface {
 		return mat;
 	}
 
-	private Integer getFive(BoardLocation bl, Colour c)
+	private Long getFive(BoardLocation bl, Colour c)
 	{
-		int minState;
-		int state;
+		long minState;
+		long state;
 		int[][] mat = getFiveMatrix(bl,c);
 		
 		state = calcState(mat);
@@ -172,7 +176,7 @@ public class UIWeight extends UserInterface {
 		if (state<minState)
 			minState = state;
 
-			return new Integer(minState);
+			return new Long(minState);
 
 	}
 
@@ -184,7 +188,9 @@ public class UIWeight extends UserInterface {
 		int move=0;
 		CardLocation chosenMove=null;
 		int best = 0;
-		Integer bestState=0;
+		Long bestState=0L;
+		ArrayList<Long> bestStates  = new ArrayList<Long>();
+		ArrayList<CardLocation> chosenMoves = new ArrayList<CardLocation>();
 		for (CardLocation cl: mv)
 		{
 			/*
@@ -203,24 +209,35 @@ public class UIWeight extends UserInterface {
 				}
 			}
 			*/
-			Integer state = getFive(cl.location,player);
+			Long state = getFive(cl.location,player);
 			if (!weights.containsKey(state))
-				weights.put(state,new Integer(128));
+				weights.put(state,new Integer(1024));
 
-			if (weights.get(state) > best)
+			if (weights.get(state) >= best)
 			{
-				best = weights.get(state);
-				bestState = state;
-				chosenMove = cl; 
+				if (weights.get(state) > best)
+				{
+					best = weights.get(state);
+					bestStates  = new ArrayList<Long>();
+					chosenMoves = new ArrayList<CardLocation>();
+				}
+				bestStates.add(state);
+				chosenMoves.add(cl);
+//				bestState = state;
+//				chosenMove = cl; 
 			}
 
-			System.out.println("loc:" + cl.location + " state:"+ state + " weight:" + weights.get(state));
+
+			// System.out.println("loc:" + cl.location + " state:"+ state + " weight:" + weights.get(state));
 
 		}
-		System.out.println("---");
-		if (bestState !=0)
-			moves.add(bestState);
-		return chosenMove;
+		//System.out.println("---");
+
+		int chose = rand.nextInt(bestStates.size());
+		moves.add(bestStates.get(chose));
+		return chosenMoves.get(chose);
+
+		//return chosenMove;
 	}
 
 }
