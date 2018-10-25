@@ -12,6 +12,10 @@ public class BoardLocation {
 	public BoardLocation getEast() { return new BoardLocation (x+1,y); }
 	public BoardLocation getNorth() { return new BoardLocation (x,y-1); }
 	public BoardLocation getSouth() { return new BoardLocation (x,y+1); }
+
+	public BoardLocation add(BoardLocation bl) {
+		return new BoardLocation (x+bl.getX() , y + bl.getY());
+	}
 	
 	public int getX() { return x; }
 	public int getY() { return y; }

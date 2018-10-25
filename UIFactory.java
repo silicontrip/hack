@@ -14,6 +14,7 @@ public class UIFactory {
 		allInterfaceNames.put("cli",UICli.class);
 		allInterfaceNames.put("gui",UIGui.class);
 		allInterfaceNames.put("weight",UIWeight.class);
+		allInterfaceNames.put("pattern",UIPattern.class);
 	
 		return allInterfaceNames;
 	}
