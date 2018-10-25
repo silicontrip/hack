@@ -22,12 +22,56 @@ public class HackTrainer  {
 			// no gui invocation
 			// then create UIs from arguments
 			try {
+				HashMap<Colour,Integer> scoreStats = new HashMap<Colour,Integer>();
+				HashMap<Colour,Integer> masterStats = new HashMap<Colour,Integer>();
+	
+			Colour noColour = new Colour(ColourType.none);
+
+				for (Colour cl: UIFactory.getPlayers(arguments).keySet())
+				{
+					scoreStats.put(cl,new Integer(0));
+					masterStats.put(cl,new Integer(0));
+				}
+				masterStats.put(noColour,new Integer(0));
+				scoreStats.put(noColour,new Integer(0));
+
 				// loop this count times
 				for (int i=0; i<1000;i++)
 				{
 					System.out.println("play count: "+i);
 					this.setPlayers(UIFactory.getPlayers(arguments));
-					start();
+					Board results = start();
+					
+					Colour winner = results.getWinColour();
+					if (winner == null)
+					{
+						masterStats.put(noColour,masterStats.get(noColour)+1);
+						HashMap<Colour,Integer> thisScore = results.getScore(results.getColours());
+						Integer highScore = 0;
+						for (Colour cl: thisScore.keySet())
+						{
+							if (thisScore.get(cl) > highScore)
+							{
+								highScore = thisScore.get(cl);
+								winner = cl;
+							}
+							if (thisScore.get(cl) == highScore)
+							{
+								// a draw?
+								winner = noColour;
+							}
+						}
+						scoreStats.put(winner,scoreStats.get(winner)+1);
+					}
+					else
+						masterStats.put(winner,masterStats.get(winner)+1);
+						
+
+					for (Colour cl: masterStats.keySet())
+						System.out.print ("" + cl + ": " + masterStats.get(cl) +"/" + scoreStats.get(cl) +" : " );
+					System.out.println("");
+
+
 				}
 			} catch (NoSuchElementException e) {
 					System.out.println("Too Many Arguments");
@@ -65,7 +109,7 @@ public class HackTrainer  {
 
 	public void setPlayers(HashMap<Colour,UserInterface> p) { playersInterface = p; }
 
-	public void start() throws Exception
+	public Board start() throws Exception
 	{
 		// System.out.println("Players: " + playersInterface.size());
 
@@ -170,6 +214,7 @@ public class HackTrainer  {
 				updateInterface.showWinner(pointsWinner);
 			}
 		}
+		return b;
 	}
 }
 

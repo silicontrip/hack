@@ -23,7 +23,7 @@ public class Colour {
 		if (type==ColourType.cyan) return new String ("C");
 		if (type==ColourType.yellow) return new String ("Y");
 		if (type==ColourType.purple) return new String ("P");
-		return ("[INVALID]");
+		return ("none");
 	}
 	@Override
 	public int hashCode() { return type.hashCode(); }

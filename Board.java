@@ -1,6 +1,7 @@
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Board {
 	HashBoard board;
@@ -85,13 +86,13 @@ public class Board {
 		return validSpaces;
 	}
 
-	private HashMap<Colour,Integer> initScore(ArrayList<Colour> ac) {
+	private HashMap<Colour,Integer> initScore(Collection<Colour> ac) {
 		HashMap<Colour,Integer> spaceScore = new HashMap<Colour,Integer>();
 		for (Colour cl: ac)
 			spaceScore.put(cl,new Integer(0));
 		return spaceScore;
 	}
-	public HashMap<Colour,Integer> getScore(ArrayList<Colour> ac) 
+	public HashMap<Colour,Integer> getScore(Collection<Colour> ac) 
 	{
 		HashMap<Colour,Integer> totalScore = initScore(ac);
 		for (BoardLocation bl : board.getUsedLocations())

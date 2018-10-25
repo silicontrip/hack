@@ -233,9 +233,14 @@ public class UIWeight extends UserInterface {
 		}
 		//System.out.println("---");
 
-		int chose = rand.nextInt(bestStates.size());
-		moves.add(bestStates.get(chose));
-		return chosenMoves.get(chose);
+		int chose=0;
+		if (bestStates.size()>0)
+		{
+			chose = rand.nextInt(bestStates.size());
+			moves.add(bestStates.get(chose));
+			return chosenMoves.get(chose);
+		}
+		return null;
 
 		//return chosenMove;
 	}

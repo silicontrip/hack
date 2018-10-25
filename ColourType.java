@@ -1,1 +1,1 @@
-public enum ColourType { blue, red, cyan, yellow, purple };
+public enum ColourType { blue, red, cyan, yellow, purple,none };
