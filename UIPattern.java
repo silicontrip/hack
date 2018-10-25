@@ -116,6 +116,7 @@ public class UIPattern extends UserInterface {
 		int score=0;
 		int move=0;
 		int chosenMove=0;
+		// Offensive
 		for (CardLocation cl: mv)
 		{
 			Board nb = board.playNew(cl.location, cl.card);
@@ -131,6 +132,21 @@ public class UIPattern extends UserInterface {
 				chosenMove = move;
 			}
 		    move++;
+		}
+		// defensive..
+		for (Colour col: board.getColours())
+		{
+			if (!col.equals(player))
+			{
+				move = 0;
+				for (CardLocation cl: mv)
+				{
+					int crossScore = cross(cl.location,col); // currently look for our colour
+					if (crossScore == 4)
+						chosenMove = move;
+					move++;	
+				}
+			}
 		}
 		//System.out.println("---");
 
