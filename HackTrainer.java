@@ -50,15 +50,15 @@ public class HackTrainer  {
 						Integer highScore = 0;
 						for (Colour cl: thisScore.keySet())
 						{
-							if (thisScore.get(cl) > highScore)
-							{
-								highScore = thisScore.get(cl);
-								winner = cl;
-							}
-							if (thisScore.get(cl) == highScore)
+							if (thisScore.get(cl).equals(highScore))
 							{
 								// a draw?
 								winner = noColour;
+							}
+							if (thisScore.get(cl) > highScore)
+							{
+								highScore = new Integer (thisScore.get(cl));
+								winner = cl;
 							}
 						}
 						scoreStats.put(winner,scoreStats.get(winner)+1);
