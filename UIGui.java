@@ -9,7 +9,7 @@ import java.awt.event.*;
 import javax.imageio.ImageIO;
 
 import java.net.URL;
-
+import javax.swing.JScrollPane;
 
 public class UIGui extends UserInterface {
 
@@ -17,6 +17,8 @@ public class UIGui extends UserInterface {
 	JPanel messagePanel;
 	UIGuiBoardPanel boardPanel;
 	UIGuiDeckPanel deckPanel;
+	JScrollPane boardScroll;
+	JScrollPane deckScroll;
 	JPanel main;
 
 	Boolean waitCard = true;
@@ -55,15 +57,28 @@ public class UIGui extends UserInterface {
 		boardPanel.setPreferredSize(new Dimension(1200, 704));
 		boardPanel.setBackground(Color.black);
 
+		 boardScroll = new JScrollPane(boardPanel);
+		 boardScroll.setPreferredSize(new Dimension(1200, 600));
+
+        boardScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        boardScroll.setVerticalScrollBarPolicy(JScrollPane. VERTICAL_SCROLLBAR_ALWAYS);
+        boardScroll.setBounds(0, 240, 1200, 1024);
+
+
 		deckPanel = new UIGuiDeckPanel(cardImage,boardPanel);
 		deckPanel.setPreferredSize(new Dimension(1200, 128));
 		deckPanel.setBackground(Color.gray);
 
+		deckScroll = new JScrollPane(deckPanel);
+        deckScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        deckScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        deckScroll.setBounds(0, 0, 1200, 144);
+
 		main = new JPanel();
 		main.setLayout(new BoxLayout(main, BoxLayout.PAGE_AXIS));
-		main.add(boardPanel);
+		main.add(boardScroll);
 		main.add(messagePanel);
-		main.add(deckPanel);
+		main.add(deckScroll);
 
 		frame.getContentPane().add(main,BorderLayout.CENTER);
         frame.setSize(1280,900);

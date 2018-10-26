@@ -58,8 +58,12 @@ public class UIGuiBoardPanel extends JPanel implements MouseMotionListener, Mous
     {
     	BoardLocation min = board.getMin();
         BoardLocation max = board.getMax();
-        int dx = (max.getX() - min.getX() + 1) * tileSize;
-        int dy = (max.getY() - min.getY() + 1) * tileSize;
+        int dx = (max.getX() + 1) * tileSize;
+        int dy = (max.getY() + 1) * tileSize; 
+
+        // display hack to get the scrollbars to appear.
+        if (dy < 2048) dy = 2048;
+        if (dx < 1024) dx = 1024;
 
         return new Dimension(dx,dy);
     }
