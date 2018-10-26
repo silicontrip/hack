@@ -54,25 +54,25 @@ public class UIGui extends UserInterface {
 		messagePanel.setBackground(Color.white);
 	
 		boardPanel = new UIGuiBoardPanel(cardImage);
-		boardPanel.setPreferredSize(new Dimension(1200, 704));
+		//boardPanel.setPreferredSize(new Dimension(1200, 704));
 		boardPanel.setBackground(Color.black);
 
 		 boardScroll = new JScrollPane(boardPanel);
-		 boardScroll.setPreferredSize(new Dimension(1200, 600));
+		 boardScroll.setPreferredSize(new Dimension(1200, 640));
 
         boardScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         boardScroll.setVerticalScrollBarPolicy(JScrollPane. VERTICAL_SCROLLBAR_ALWAYS);
-        boardScroll.setBounds(0, 240, 1200, 1024);
-
+       // boardScroll.setBounds(0, 0, 2048, 2048);
+		//boardScroll.getVerticalScrollBar().setValue(300);
 
 		deckPanel = new UIGuiDeckPanel(cardImage,boardPanel);
-		deckPanel.setPreferredSize(new Dimension(1200, 128));
+		//deckPanel.setPreferredSize(new Dimension(1200, 128));
 		deckPanel.setBackground(Color.gray);
 
 		deckScroll = new JScrollPane(deckPanel);
         deckScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         deckScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        deckScroll.setBounds(0, 0, 1200, 144);
+        //deckScroll.setBounds(0, 0, 1200, 136);
 
 		main = new JPanel();
 		main.setLayout(new BoxLayout(main, BoxLayout.PAGE_AXIS));
@@ -81,7 +81,7 @@ public class UIGui extends UserInterface {
 		main.add(deckScroll);
 
 		frame.getContentPane().add(main,BorderLayout.CENTER);
-        frame.setSize(1280,900);
+		frame.setSize(1280,900);
 	}
 
 	private void initAllCardKeys() throws IOException
@@ -127,6 +127,8 @@ public class UIGui extends UserInterface {
 	private void drawBoard()
 	{
 		frame.setVisible(true);
+		boardScroll.getVerticalScrollBar().setValue(700);  // trial and error value
+
 		frame.repaint() ;
 	}
 
